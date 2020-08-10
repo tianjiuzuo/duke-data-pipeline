@@ -6,7 +6,7 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="static/base.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/base.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
