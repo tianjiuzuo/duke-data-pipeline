@@ -5,3 +5,7 @@ h1.welcome-statement {
 p.collectionform-guidance-text {
   text-align: center;
 }
+
+.btn-primary {
+  background: #012169;
+}
