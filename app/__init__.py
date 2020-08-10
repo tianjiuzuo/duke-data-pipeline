@@ -6,7 +6,7 @@ from config import Config
 from flask_bootstrap import Bootstrap
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
