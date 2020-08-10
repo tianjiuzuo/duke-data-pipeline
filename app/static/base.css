@@ -1,14 +1,14 @@
 .navbar-brand>img {
-  width:120px;
+  width:120px !important;
 }
 
 #duke-logo-box.navbar-brand {
-  margin-bottom:25px;
+  margin-bottom:25px !important;
 }
 
 .navbar-nav {
-  margin-top:15px;
-  margin-right: -15px;
-  margin-bottom: -15px;
-  margin-left: 5px;
+  margin-top:15px !important;
+  margin-right:-15px !important;
+  margin-bottom:-15px !important;
+  margin-left:5px !important;
 }
