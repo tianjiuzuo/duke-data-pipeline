@@ -6,10 +6,22 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="welcome-statement">Welcome to Duke University's Domestic Violence Data Pipeline Project</h1>
-    <p class="collectionform-guidance-text">Please click on "Collection Form" in the menubar above to proceed. Or alternatively, click below:</p><br>
-
-<div class="text-center">
-    <a href="{{ url_for('collectionform') }}" class="btn btn-primary btn-lg">Collection Form</a>
-</div>
+    <div class="jumbotron">
+      <h1 class="display-4">Duke University Domestic Violence Data Pipeline Project</h1>
+      <p class="lead">Making North Carolina a safer and smarter place through data analysis for better decision-making</p>
+      <hr class="my-4">
+      <p id="please-click">Please click the button below to begin the data entry process.</p>
+      <p class="lead">
+        <a href="{{ url_for('collectionform') }}" class="btn btn-primary btn-lg">Collection Form</a>
+      </p>
+    </div>
+    <div class="row">
+      <div class="card" style="width:250px;">
+        <div class="card-body text-center">
+          <h5 class="card-title">About our research</h5>
+          <p class="card-text">Learn more about what we do with the data we collect and how we can help you.</p>
+          <a href="#" class="btn btn-primary">Research</a>
+        </div>
+      </div>
+    </div>
 {% endblock %}

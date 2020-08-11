@@ -1,8 +1,4 @@
-{% extends 'bootstrap/base.html' %}
-
-{% block title %}
-  {% if title %}{{ title }} - Duke Data Pipeline Project{% else %}Duke Data Pipeline Project{% endif %}
-{% endblock %}
+{% extends "bootstrap-base.html" %}
 
 {% block styles %}
   {{ super() }}
@@ -10,33 +6,27 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" id="duke-logo-box" href="{{ url_for('index') }}">
-            <img src="https://assets.codepen.io/4534373/resized_duke_logo.svg" id="duke-logo" alt="">
-          </a>
+    <nav class="navbar navbar-expand-md navbar-light">
+      <a class="navbar-brand" id="duke-logo-box" href="{{ url_for('index') }}">
+        <img src="https://assets.codepen.io/4534373/resized_duke_logo.svg" id="duke-logo" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li><a href="{{ url_for('collectionform') }}">Collection Form</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_anonymous %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% else %}
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
+          </ul>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('collectionform') }}">Collection Form</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                   {% if current_user.is_anonymous %}
-                   <li><a href="{{ url_for('login') }}">Login</a></li>
-                   {% else %}
-                   <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                   {% endif %}
-                </ul>
-              </div>
-            </div>
-          </nav>
+    </nav>
 {% endblock %}
 
 {% block content %}

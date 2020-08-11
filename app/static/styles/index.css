@@ -1,11 +1,15 @@
-h1.welcome-statement {
-  text-align: center;
-}
-
-p.collectionform-guidance-text {
-  text-align: center;
-}
-
 .btn-primary {
   background: #012169;
+}
+
+.display-4 {
+  text-align: center;
+}
+
+.lead {
+  text-align: center;
+}
+
+#please-click {
+  text-align: center;
 }
