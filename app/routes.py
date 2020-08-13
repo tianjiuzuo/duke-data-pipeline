@@ -72,3 +72,23 @@ def collectionform():
         flash('Form Completed!')
         return redirect(url_for('index'))
     return render_template('collectionform.html', title='Collection Form', form=form)
+
+@app.route('/research')
+@login_required
+def research():
+    return render_template('research.html', title='Research')
+
+@app.route('/disclosure')
+@login_required
+def disclosure():
+    return render_template('disclosure.html', title='Disclosure')
+
+@app.route('/team')
+@login_required
+def team():
+    return render_template('team.html', title='Team')
+
+@app.route('/contact_us')
+@login_required
+def contact_us():
+    return render_template('contact_us.html', title='Contact Us')
