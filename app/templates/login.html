@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form %}
 
+{% block styles %}
+  {{ super() }}
+    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-  <h1>Sign In</h1>
-  <div class="row">
-    <div class="col-md-4">
+
+  <div class="container">
+    <h1 class="text-center my-5">Sign In</h1>
+    <div class="my-5 mx-5">
       {{ render_form(form) }}
     </div>
   </div>
