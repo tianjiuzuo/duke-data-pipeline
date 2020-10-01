@@ -2,13 +2,13 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/terms_and_privacy.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div class="container align-items-center">
-  <h1 class="text-center my-5">Data Handling and Protection Practices</h1>
+<div class="container">
+  <h1 class="text-center my-5">Please read these terms and disclosure before continuing</h1>
     <p >
     The policy below applies to the following website:
     </p>
@@ -89,5 +89,8 @@
     The Data Pipeline reserves the right to modify all statements made about its privacy practices. We encourage you to return to this page frequently to check for updated information and effective dates. Your continued engagement with the Data Pipeline, after any changes to this Privacy Statement go into effect, in person or through our websites, constitutes your acceptance of these changes.
   </p>
 
+</div>
+<div class="text-center">
+  <a href="{{ url_for('collectionform') }}" class="btn btn-primary btn-lg my-5">I, representing my organization, consent to the terms outlined above</a>
 </div>
 {% endblock %}

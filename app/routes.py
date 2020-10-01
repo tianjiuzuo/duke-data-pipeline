@@ -92,3 +92,8 @@ def team():
 @login_required
 def contact_us():
     return render_template('contact_us.html', title='Contact Us')
+
+@app.route('/terms_and_privacy')
+@login_required
+def terms_and_privacy():
+    return render_template('terms_and_privacy.html', title='Please read to continue')
