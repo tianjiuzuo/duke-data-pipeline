@@ -10,6 +10,9 @@
 {% block content %}
   <div class="container align-items-center">
     <h1 class="text-center my-5">Collection Form</h1>
+    <div class="alert alert-danger" role="alert">
+      Please do NOT enter any personally identifiable information! The form is configured to invalidate letters.
+    </div>
     <div class="mx-auto">
       {{ render_form(form) }}
     </div>
