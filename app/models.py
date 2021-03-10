@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     organization = db.Column(db.String(120))
+    roles = db.relationship('Role', secondary=role_user, lazy='subquery', backref=db.backref('users', lazy=True))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     updates = db.relationship('Update', backref='shelter', lazy=True)
     requests = db.relationship('Request', backref='user', lazy=True)
@@ -28,6 +29,21 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String(100), nullable=False)
+
+role_user = db.Table(
+    'role_user',
+    db.Column('user_id',
+              db.Integer,
+              db.ForeignKey('user.id'),
+              primary_key=True),
+    db.Column('role_id',
+              db.Integer,
+              db.ForeignKey('role.id'),
+              primary_key=True))
+)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +71,7 @@ class Request(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     data_requested = db.Column(
         db.String(), nullable=False)  #csv strings of requested data fields
+    approved = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
