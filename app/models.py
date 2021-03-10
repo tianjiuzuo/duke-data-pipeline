@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     organization = db.Column(db.String(120))
-    roles = db.relationship('Role', secondary=role_user, lazy='subquery', backref=db.backref('users', lazy=True))
+    roles = db.relationship('Role', secondary='user_roles')
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     updates = db.relationship('Update', backref='shelter', lazy=True)
     requests = db.relationship('Request', backref='user', lazy=True)
@@ -29,21 +29,20 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
+
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    role = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(50), unique=True)
 
-role_user = db.Table(
-    'role_user',
-    db.Column('user_id',
-              db.Integer,
-              db.ForeignKey('user.id'),
-              primary_key=True),
-    db.Column('role_id',
-              db.Integer,
-              db.ForeignKey('role.id'),
-              primary_key=True))
-)
+
+class UserRoles(db.Model):
+    __tablename__ = 'user_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(),
+                        db.ForeignKey('user.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(),
+                        db.ForeignKey('role.id', ondelete='CASCADE'))
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
