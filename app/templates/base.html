@@ -22,7 +22,8 @@
       {% if current_user.is_anonymous %}
       <li><a href="{{ url_for('login') }}">Login</a></li>
       {% else %}
-      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      <li class="rightControl"><a href="{{ url_for('changePassword') }}">Change Password</a></li>
+      <li class="rightControl"><a href="{{ url_for('logout') }}">Logout</a></li>
       {% endif %}
     </div>
 </nav>
