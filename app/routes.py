@@ -4,7 +4,7 @@ from flask_user import roles_required
 from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CollectionForm
-from app.models import User, Update, Request, UserRoles
+from app.models import User, Update, Request, Role, UserRoles
 
 
 @app.route('/')
@@ -44,19 +44,23 @@ def login():
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@login_required
 def register():
-    if current_user.is_authenticated:
+    if 'shelter' in current_user.all_roles():
         return redirect(url_for('index'))
 
     form = RegistrationForm()
+    available_roles = [role.name for role in Role.query.all()]
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, organization=form.organization.data)
+        role = Role.query.filter_by(name=form.role.data).first()
+        user.roles.append(role)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title='Register', form=form, roles = available_roles)
 
 
 @app.route('/logout')

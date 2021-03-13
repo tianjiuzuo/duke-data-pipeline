@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import app, db, login
+from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     organization = db.Column(db.String(120))
     roles = db.relationship('Role', secondary='user_roles')
-    # posts = db.relationship('Post', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
     updates = db.relationship('Update', backref='shelter', lazy=True)
     requests = db.relationship('Request', backref='user', lazy=True)
 
@@ -24,6 +24,9 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def all_roles(self):
+        return [role.name for role in self.roles]
 
 
 @login.user_loader
@@ -40,10 +43,8 @@ class Role(db.Model):
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(),
-                        db.ForeignKey('users.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(),
-                        db.ForeignKey('roles.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
 
 class Post(db.Model):
