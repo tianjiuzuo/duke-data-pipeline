@@ -32,10 +32,6 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 class CollectionForm(FlaskForm):
-    organization = SelectField(
-        'Organization',
-        choices = [('dcrc', 'Durham Crisis Response Center'), ('nccadv-d', 'North Carolina Coalition Against Domestic Violence - Durham')]
-    )
     number_of_victims = IntegerField('Number of victims currently housed', validators=[DataRequired()])
     capacity = IntegerField('What is the planned capacity of the shelter?', validators=[DataRequired()])
     verification = BooleanField('I verify that this information is accurate to the best of my knowledge', validators=[DataRequired()])

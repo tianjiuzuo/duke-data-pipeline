@@ -69,6 +69,8 @@ class Update(db.Model):
     def __repr__(self):
         return '<Update {}>'.format(self.user_id)
 
+    def get_prop(self, string):
+        return getattr(self, string)
 
 class Request(db.Model):
     __tablename__ = 'requests'

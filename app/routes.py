@@ -115,3 +115,14 @@ def contact_us():
 def terms_and_privacy():
     return render_template('terms_and_privacy.html',
                            title='Please read to continue')
+
+@app.route('/admin')
+@login_required
+def admin_index():
+    if 'admin' not in current_user.all_roles():
+        return redirect(url_for('index'))
+
+    all_updates = db.session.query(Update, User).join(User)
+    update_fields = ['number_of_victims', 'capacity', 'timestamp']
+
+    return render_template('admin_index.html', title='Admin_Index', fields=update_fields, updates=all_updates)
