@@ -3,7 +3,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from flask_user import roles_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, CollectionForm
+from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
+from werkzeug.security import generate_password_hash
 from app.models import User, Update, Request, Role, UserRoles
 import sqlite3
 
@@ -43,6 +44,18 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
+
+@app.route('/changePassword', methods=['GET', 'POST'])
+@login_required
+def changePassword():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=current_user.username).first()
+        user.password_hash = generate_password_hash(form.password.data)
+        db.session.commit()
+        flash('Password Updated!')
+        return redirect(url_for('index'))
+    return render_template('changePassword.html', title='Change Password', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
