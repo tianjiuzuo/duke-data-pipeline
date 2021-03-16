@@ -44,13 +44,6 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-<<<<<<< HEAD
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
-
 @app.route('/changePassword', methods=['GET', 'POST'])
 @login_required
 def changePassword():
@@ -63,8 +56,6 @@ def changePassword():
         return redirect(url_for('index'))
     return render_template('changePassword.html', title='Change Password', form=form)
 
-=======
->>>>>>> 9d1a9325caacc1b537b5b371ae658f9dfe4773a1
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
 def register():
