@@ -1,3 +1,7 @@
 .navbar-brand>img {
   width:120px !important;
 }
+.rightControl {
+    list-style-type:none;
+    margin-left: 15px;
+}
