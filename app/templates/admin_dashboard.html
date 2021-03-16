@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+<h1>Recent Updates</h1>
+<table border=1>
+    <thead>
+       <td>ID</td>
+       <td>User ID</td>
+       <td>Number of Victims</td>
+       <td>Capacity</td>
+       <td>Timestamp</td>
+    </thead>
+    {% for row in data %}
+    <tr>
+        <th> {{ row[0] }}</th>
+        <th> {{ row[1] }}</th>
+        <th> {{ row[2] }}</th>
+        <th> {{ row[3] }}</th>
+        <th> {{ row[4] }}</th>
+    </tr> 
+    {% endfor %}
+</table>
+</center>
+{% endblock %}
