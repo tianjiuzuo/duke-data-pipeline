@@ -5,6 +5,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CollectionForm
 from app.models import User, Update, Request, Role, UserRoles
+import sqlite3
 
 
 @app.route('/')
@@ -85,6 +86,18 @@ def collectionform():
                            title='Collection Form',
                            form=form)
 
+
+@app.route('/admin_dashboard', methods=['GET'])
+@login_required
+def admin_dashboard():
+    c = sqlite3.connect('app.db')
+    cur = c.cursor()
+    cur.execute("SELECT * FROM updates ORDER BY timestamp DESC LIMIT 10")
+    data = cur.fetchall()
+    return render_template('admin_dashboard.html',
+                           title='Admin Dashboard',
+                           data=data)
+                           
 
 @app.route('/research')
 @login_required
