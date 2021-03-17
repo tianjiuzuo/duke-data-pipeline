@@ -24,7 +24,9 @@ def index():
         },
         'body': 'The Avengers movie was so cool!'
     }]
-    return render_template('index.html', title='Home', posts=posts)
+    if 'admin' in current_user.all_roles():
+        return redirect(url_for('admin_dashboard'))
+    return render_template('index.html', title='Home', posts=posts, template='base.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,7 +57,7 @@ def changePassword():
         db.session.commit()
         flash('Password Updated!')
         return redirect(url_for('index'))
-    return render_template('changePassword.html', title='Change Password', form=form)
+    return render_template('changePassword.html', title='Change Password', form=form, template=admin_template_validation())
 
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
@@ -103,41 +105,49 @@ def collectionform():
 @app.route('/admin_dashboard', methods=['GET'])
 @login_required
 def admin_dashboard():
-    c = sqlite3.connect('app.db')
-    cur = c.cursor()
-    cur.execute("SELECT * FROM updates ORDER BY timestamp DESC LIMIT 10")
-    data = cur.fetchall()
-    return render_template('admin_dashboard.html',
-                           title='Admin Dashboard',
-                           data=data)
+    if 'admin' in current_user.all_roles():
+        c = sqlite3.connect('app.db')
+        cur = c.cursor()
+        cur.execute("SELECT * FROM updates ORDER BY timestamp DESC LIMIT 10")
+        data = cur.fetchall()
+        return render_template('admin_dashboard.html',
+                               title='Admin Dashboard',
+                               data=data)
+    else:
+        return render_template('404.html')
                            
 
 @app.route('/research')
 @login_required
 def research():
-    return render_template('research.html', title='Research')
+    return render_template('research.html', title='Research', template=admin_template_validation())
 
 
 @app.route('/disclosure')
 @login_required
 def disclosure():
-    return render_template('disclosure.html', title='Disclosure')
+    return render_template('disclosure.html', title='Disclosure', template=admin_template_validation())
 
 
 @app.route('/team')
 @login_required
 def team():
-    return render_template('team.html', title='Team')
+    return render_template('team.html', title='Team', template=admin_template_validation())
 
 
 @app.route('/contact_us')
 @login_required
 def contact_us():
-    return render_template('contact_us.html', title='Contact Us')
+    return render_template('contact_us.html', title='Contact Us', template=admin_template_validation())
 
 
 @app.route('/terms_and_privacy')
 @login_required
 def terms_and_privacy():
     return render_template('terms_and_privacy.html',
-                           title='Please read to continue')
+                           title='Please read to continue', template=admin_template_validation())
+
+def admin_template_validation():
+    if 'admin' in current_user.all_roles():
+        return 'base-admin.html'
+    return 'base.html'
