@@ -9,8 +9,8 @@
         <div class="card rounded shadow border-0">
             <div class="card-body p-5 bg-white rounded">
                 <div class="table-responsive">
-                    <table id="admin-dashboard" style="width:100%" class="table table-striped table-bordered">
-                        <thead>
+                    <table id="admin-dashboard" style="width:100%; text-align:center" class="table table-striped table-bordered">
+                        <thead style="font-weight:bold">
                         <td>ID</td>
                         <td>User ID</td>
                         <td>Number of Victims</td>
@@ -19,11 +19,11 @@
                         </thead>
                         {% for row in data %}
                         <tr>
-                            <th> {{ row[0] }}</th>
-                            <th> {{ row[1] }}</th>
-                            <th> {{ row[2] }}</th>
-                            <th> {{ row[3] }}</th>
-                            <th> {{ row[4] }}</th>
+                            <th style="font-weight:normal"> {{ row[0] }}</th>
+                            <th style="font-weight:normal"> {{ row[1] }}</th>
+                            <th style="font-weight:normal"> {{ row[2] }}</th>
+                            <th style="font-weight:normal"> {{ row[3] }}</th>
+                            <th style="font-weight:normal"> {{ row[4] }}</th>
                         </tr> 
                         {% endfor %}
                     </table>
