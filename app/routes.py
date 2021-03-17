@@ -99,6 +99,7 @@ def collectionform():
         return redirect(url_for('index'))
     return render_template('collectionform.html',
                            title='Collection Form',
+                           user=current_user,
                            form=form)
 
 
@@ -106,16 +107,12 @@ def collectionform():
 @login_required
 def admin_dashboard():
     if 'admin' in current_user.all_roles():
-        c = sqlite3.connect('app.db')
-        cur = c.cursor()
-        cur.execute("SELECT * FROM updates ORDER BY timestamp DESC LIMIT 10")
-        data = cur.fetchall()
+        data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
         return render_template('admin_dashboard.html',
                                title='Admin Dashboard',
                                data=data)
     else:
         return render_template('404.html')
-                           
 
 @app.route('/research')
 @login_required

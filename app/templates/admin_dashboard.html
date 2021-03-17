@@ -13,17 +13,19 @@
                         <thead>
                         <td>ID</td>
                         <td>User ID</td>
+                        <td>Organization</td>
                         <td>Number of Victims</td>
                         <td>Capacity</td>
                         <td>Timestamp</td>
                         </thead>
                         {% for row in data %}
                         <tr>
-                            <th> {{ row[0] }}</th>
-                            <th> {{ row[1] }}</th>
-                            <th> {{ row[2] }}</th>
-                            <th> {{ row[3] }}</th>
-                            <th> {{ row[4] }}</th>
+                            <th> {{ row[0].id }}</th>
+                            <th> {{ row[0].user_id }}</th>
+                            <th> {{ row[1].organization }}</th>
+                            <th> {{ row[0].number_of_victims }}</th>
+                            <th> {{ row[0].capacity }}</th>
+                            <th> {{ row[0].timestamp }}</th>
                         </tr> 
                         {% endfor %}
                     </table>
