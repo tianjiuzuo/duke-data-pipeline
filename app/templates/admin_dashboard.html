@@ -1,5 +1,10 @@
 {% extends "base-admin.html" %}
 
+{% block styles %}
+  {{ super() }}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/admin_dashboard.css') }}">
+{% endblock %}
+
 {% block content %}
 <center>
 <br>
@@ -9,7 +14,7 @@
         <div class="card rounded shadow border-0">
             <div class="card-body p-5 bg-white rounded">
                 <div class="table-responsive">
-                    <table id="admin-dashboard" style="width:100%" class="table table-striped table-bordered">
+                    <table id="admin_dashboard" style="width:100%" class="table table-striped table-bordered">
                         <thead>
                         <td>ID</td>
                         <td>User ID</td>

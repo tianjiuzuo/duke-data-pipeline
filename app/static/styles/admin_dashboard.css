@@ -1,0 +1,14 @@
+h1 {
+    font-family: 'Merriweather', sans-serif;
+}
+
+td {
+    font-weight: bold;
+    text-align: center;
+    color: red;
+}
+
+th {
+    font-weight: 400;
+    text-align: center;
+}
