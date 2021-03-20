@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_user import roles_required
 from werkzeug.urls import url_parse
@@ -6,7 +6,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
 from werkzeug.security import generate_password_hash
 from app.models import User, Update, Request, Role, UserRoles
-import sqlite3
+import sqlite3, csv, os
 
 
 @app.route('/')
@@ -107,12 +107,46 @@ def collectionform():
 @login_required
 def admin_dashboard():
     if 'admin' in current_user.all_roles():
-        data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
+        raw_data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
+
+        update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+        user_fields = ['organization']
+        data = []
+
+        for row in raw_data:
+            update = row[0]
+            user = row[1]
+            new_row = []
+
+            for field in update_fields:
+                new_row.append(getattr(update, field))
+
+            for field in user_fields:
+                new_row.append(getattr(user, field))
+
+            data.append(new_row)
+
+        csvpath = os.getcwd()
+        csvpath = csvpath.split('duke-data-pipeline')[0]
+        csvpath = csvpath + '/duke-data-pipeline/'
+
+        with open(csvpath+'data.csv', 'w') as demo_file:
+            write = csv.writer(demo_file)
+            write.writerow(update_fields+user_fields)
+            write.writerows(data)
+
         return render_template('admin_dashboard.html',
                                title='Admin Dashboard',
+                               fields=update_fields+user_fields,
                                data=data)
     else:
         return render_template('404.html')
+
+@app.route('/download_csv')
+@login_required
+def download_csv():
+    path = 'data.csv'
+    return send_file(path, as_attachment=True)
 
 @app.route('/research')
 @login_required
