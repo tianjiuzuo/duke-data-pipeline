@@ -103,50 +103,75 @@ def collectionform():
                            form=form)
 
 
-@app.route('/admin_dashboard', methods=['GET'])
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
     if 'admin' in current_user.all_roles():
         raw_data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
-
         update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
         user_fields = ['organization']
-        data = []
 
-        for row in raw_data:
-            update = row[0]
-            user = row[1]
-            new_row = []
+        if request.method == 'GET':
+            data = []
 
-            for field in update_fields:
-                new_row.append(getattr(update, field))
+            for row in raw_data:
+                update = row[0]
+                user = row[1]
+                new_row = []
 
-            for field in user_fields:
-                new_row.append(getattr(user, field))
+                for field in update_fields:
+                    new_row.append(getattr(update, field))
 
-            data.append(new_row)
+                for field in user_fields:
+                    new_row.append(getattr(user, field))
 
-        csvpath = os.getcwd()
-        csvpath = csvpath.split('duke-data-pipeline')[0]
-        csvpath = csvpath + '/duke-data-pipeline/'
+                data.append(new_row)
 
-        with open(csvpath+'data.csv', 'w') as demo_file:
-            write = csv.writer(demo_file)
-            write.writerow(update_fields+user_fields)
-            write.writerows(data)
+            return render_template('admin_dashboard.html',
+                                title='Admin Dashboard',
+                                fields=update_fields+user_fields,
+                                data=data)
 
-        return render_template('admin_dashboard.html',
-                               title='Admin Dashboard',
-                               fields=update_fields+user_fields,
-                               data=data)
+        if request.method == 'POST':
+            form = request.form.to_dict(flat=False)
+
+            data = []
+            csvpath = os.getcwd()
+            csvpath = csvpath.split('app')[0]
+            csvpath = csvpath + '/app/'
+            csvheader = []
+
+            for row in raw_data:
+                update = row[0]
+                user = row[1]
+                new_row = []
+
+                for field in update_fields:
+                    if field in form:
+                        new_row.append(getattr(update, field))
+                        if field not in csvheader:
+                            csvheader.append(field)
+
+                for field in user_fields:
+                    if field in form:
+                        new_row.append(getattr(user, field))
+                        if field not in csvheader:
+                            csvheader.append(field)
+
+                data.append(new_row)
+
+            with open(csvpath+'data.csv', 'w') as demo_file:
+                write = csv.writer(demo_file)
+                write.writerow(csvheader)
+                write.writerows(data)
+
+            path = 'data.csv'
+
+            return send_file(path, as_attachment=True)
+
     else:
         return render_template('404.html')
 
-@app.route('/download_csv')
-@login_required
-def download_csv():
-    path = 'data.csv'
-    return send_file(path, as_attachment=True)
 
 @app.route('/research')
 @login_required
