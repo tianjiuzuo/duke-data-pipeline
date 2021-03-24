@@ -7,6 +7,10 @@ from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswor
 from werkzeug.security import generate_password_hash
 from app.models import User, Update, Request, Role, UserRoles
 import sqlite3
+from flask_mail import Message
+from app import mail
+from flask import current_app
+import os
 
 
 @app.route('/')
@@ -96,12 +100,12 @@ def collectionform():
         db.session.add(submission)
         db.session.commit()
         flash('Form Completed!')
-        return redirect(url_for('index'))
+        send_mail()
+        return render_template('confirmation.html')
     return render_template('collectionform.html',
                            title='Collection Form',
                            user=current_user,
                            form=form)
-
 
 @app.route('/admin_dashboard', methods=['GET'])
 @login_required
@@ -148,3 +152,10 @@ def admin_template_validation():
     if 'admin' in current_user.all_roles():
         return 'base-admin.html'
     return 'base.html'
+
+def send_mail():
+    msg = Message("Submisson Confirmation",
+                  sender = os.environ.get('EMAIL'),
+                  recipients=[os.environ.get('EMAIL')])
+    msg.body = "Thank you for your submission. The next collection date is _______."
+    mail.send(msg)
