@@ -1,0 +1,19 @@
+﻿{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container align-items-center">
+    <h1 class="text-center my-5">Thank You For Submitting</h1>
+    <h2 class="text-center my-5"> Your next collection date is ______ </h2>
+</div>
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Duke University Domestic Violence Data Pipeline Project</span>
+    </div>
+</footer>
+{% endblock %}

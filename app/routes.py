@@ -1,12 +1,13 @@
-from flask import render_template, flash, redirect, url_for, request, send_file
+from flask import render_template, flash, redirect, url_for, request, send_file, current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_user import roles_required
 from werkzeug.urls import url_parse
-from app import app, db
+from app import app, db, mail
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
 from werkzeug.security import generate_password_hash
 from app.models import User, Update, Request, Role, UserRoles
 import sqlite3, csv, os
+from flask_mail import Message
 
 
 @app.route('/')
@@ -95,8 +96,9 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
+        send_mail()
+        return render_template('confirmation.html')
         flash('Form Completed!')
-        return redirect(url_for('index'))
     return render_template('collectionform.html',
                            title='Collection Form',
                            user=current_user,
@@ -207,3 +209,10 @@ def admin_template_validation():
     if 'admin' in current_user.all_roles():
         return 'base-admin.html'
     return 'base.html'
+
+def send_mail():
+    msg = Message("Submisson Confirmation",
+                  sender = os.environ.get('EMAIL'),
+                  recipients=[os.environ.get('EMAIL')])
+    msg.body = "Thank you for your submission. The next collection date is _______."
+    mail.send(msg)
