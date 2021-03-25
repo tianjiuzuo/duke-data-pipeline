@@ -97,7 +97,6 @@ def collectionform():
         db.session.add(submission)
         db.session.commit()
         send_mail()
-        logout_user()
         return render_template('confirmation.html')
         flash('Form Completed!')
     return render_template('collectionform.html',

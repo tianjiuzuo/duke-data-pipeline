@@ -7,10 +7,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="container align-items-center">
-    <h1 class="text-center my-5">Thank You For Submitting</h1>
-    <h2 class="text-center my-5"> Your next collection date is ______ </h2>
-</div>
+<div class="jumbotron text-center">
+    <h1 class="display-3">Thank You!</h1>
+    <p class="lead">Your next collection date is ______</p>
+    <hr>
+    <p>
+      Having trouble? <a href="{{ url_for('contact_us') }}">Contact us</a>
+    </p>
+    <p class="lead">
+      <a class="btn btn-primary btn-md" href="{{ url_for('logout') }}" role="button">Logout</a>
+    </p>
+  </div>
 <footer class="footer">
     <div class="container">
         <span class="text-muted">Duke University Domestic Violence Data Pipeline Project</span>
