@@ -1,12 +1,13 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, send_file, current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_user import roles_required
 from werkzeug.urls import url_parse
-from app import app, db
+from app import app, db, mail
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
 from werkzeug.security import generate_password_hash
 from app.models import User, Update, Request, Role, UserRoles
-import sqlite3
+import sqlite3, csv, os
+from flask_mail import Message
 
 
 @app.route('/')
@@ -95,24 +96,84 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
+        send_mail()
+        return render_template('confirmation.html')
         flash('Form Completed!')
-        return redirect(url_for('index'))
     return render_template('collectionform.html',
                            title='Collection Form',
                            user=current_user,
                            form=form)
 
 
-@app.route('/admin_dashboard', methods=['GET'])
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
     if 'admin' in current_user.all_roles():
-        data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
-        return render_template('admin_dashboard.html',
-                               title='Admin Dashboard',
-                               data=data)
+        raw_data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
+        update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+        user_fields = ['organization']
+
+        if request.method == 'GET':
+            data = []
+
+            for row in raw_data:
+                update = row[0]
+                user = row[1]
+                new_row = []
+
+                for field in update_fields:
+                    new_row.append(getattr(update, field))
+
+                for field in user_fields:
+                    new_row.append(getattr(user, field))
+
+                data.append(new_row)
+
+            return render_template('admin_dashboard.html',
+                                title='Admin Dashboard',
+                                fields=update_fields+user_fields,
+                                data=data)
+
+        if request.method == 'POST':
+            form = request.form.to_dict(flat=False)
+
+            data = []
+            csvpath = os.getcwd()
+            csvpath = csvpath.split('app')[0]
+            csvpath = csvpath + '/app/'
+            csvheader = []
+
+            for row in raw_data:
+                update = row[0]
+                user = row[1]
+                new_row = []
+
+                for field in update_fields:
+                    if field in form:
+                        new_row.append(getattr(update, field))
+                        if field not in csvheader:
+                            csvheader.append(field)
+
+                for field in user_fields:
+                    if field in form:
+                        new_row.append(getattr(user, field))
+                        if field not in csvheader:
+                            csvheader.append(field)
+
+                data.append(new_row)
+
+            with open(csvpath+'data.csv', 'w') as demo_file:
+                write = csv.writer(demo_file)
+                write.writerow(csvheader)
+                write.writerows(data)
+
+            path = 'data.csv'
+
+            return send_file(path, as_attachment=True)
+
     else:
         return render_template('404.html')
+
 
 @app.route('/research')
 @login_required
@@ -148,3 +209,10 @@ def admin_template_validation():
     if 'admin' in current_user.all_roles():
         return 'base-admin.html'
     return 'base.html'
+
+def send_mail():
+    msg = Message("Submisson Confirmation",
+                  sender = os.environ.get('EMAIL'),
+                  recipients=[os.environ.get('EMAIL')])
+    msg.body = "Thank you for your submission. The next collection date is _______."
+    mail.send(msg)
