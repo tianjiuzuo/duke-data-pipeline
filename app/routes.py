@@ -5,7 +5,7 @@ from werkzeug.urls import url_parse
 from app import app, db, mail
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
 from werkzeug.security import generate_password_hash
-from app.models import User, Update, Request, Role, UserRoles
+from app.models import User, Update, Request, Role
 import sqlite3, csv, os
 from flask_mail import Message
 
@@ -77,6 +77,7 @@ def register():
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
+
     return render_template('register.html', title='Register', form=form, roles = available_roles, template = "base-admin.html")
 
 
@@ -96,8 +97,10 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
-        send_mail()
+        # send_mail()
+
         return render_template('confirmation.html')
+
         flash('Form Completed!')
     return render_template('collectionform.html',
                            title='Collection Form',
@@ -174,6 +177,33 @@ def admin_dashboard():
     else:
         return render_template('404.html')
 
+@app.route('/admin_profiles', methods=['GET', 'POST'])
+@login_required
+def admin_profiles():
+    if 'admin' in current_user.all_roles():
+        if request.method == 'GET':
+            users = User.query.all()
+            user_fields = ['id', 'username', 'email', 'organization']
+            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+            
+            return render_template('profile_page.html', user_fields=user_fields, users=users)
+
+    else:
+        return render_template('404.html')
+
+@app.route('/admin_profiles/delete/<int:id>')
+@login_required
+def delete_profile(id):
+    if 'admin' in current_user.all_roles():
+        user_to_delete = User.query.get(id)  
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        
+        return redirect(url_for('admin_profiles'))
+    
+    else:
+        return render_template('404.html')
+
 
 @app.route('/research')
 @login_required
@@ -212,7 +242,10 @@ def admin_template_validation():
 
 def send_mail():
     msg = Message("Submisson Confirmation",
-                  sender = os.environ.get('EMAIL'),
-                  recipients=[os.environ.get('EMAIL')])
+                #   sender = os.environ.get('EMAIL'),
+                #   recipients=[os.environ.get('EMAIL')]
+                  sender = 'demo@gmail.com',
+                  recipients = ['qixuankhoo@gmail.com'])
+
     msg.body = "Thank you for your submission. The next collection date is _______."
     mail.send(msg)

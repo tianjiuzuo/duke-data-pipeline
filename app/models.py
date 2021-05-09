@@ -11,10 +11,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     organization = db.Column(db.String(120))
-    roles = db.relationship('Role', secondary='user_roles')
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-    updates = db.relationship('Update', backref='shelter', lazy=True)
-    requests = db.relationship('Request', backref='user', lazy=True)
+    roles = db.relationship('Role', secondary='role_user', lazy='subquery', backref=db.backref('users', lazy=True))
+    updates = db.relationship('Update', cascade="all, delete", backref='shelter', lazy=True)
+    requests = db.relationship('Request', cascade="all, delete", backref='user', lazy=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -33,18 +32,15 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
+role_user = db.Table('role_user',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True)
+)
 
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
-
-
-class UserRoles(db.Model):
-    __tablename__ = 'user_roles'
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
 
 class Post(db.Model):
