@@ -5,10 +5,13 @@ from werkzeug.urls import url_parse
 from app import app, db, mail
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
 from werkzeug.security import generate_password_hash
-from app.models import User, Update, Request, Role, UserRoles
+from app.models import User, Update, Request, Role
 import sqlite3, csv, os
 from flask_mail import Message
-
+from sqlalchemy.sql import text
+from sqlalchemy import create_engine, func
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -25,7 +28,8 @@ def index():
         },
         'body': 'The Avengers movie was so cool!'
     }]
-    if 'admin' in current_user.all_roles():
+
+    if current_user.role.name == 'admin':
         return redirect(url_for('admin_dashboard'))
     return render_template('index.html', title='Home', posts=posts, template='base.html')
 
@@ -63,20 +67,22 @@ def changePassword():
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
 def register():
-    if 'shelter' in current_user.all_roles():
+    if current_user.role.name == 'shelter':
         return redirect(url_for('index'))
 
     form = RegistrationForm()
     available_roles = [role.name for role in Role.query.all()]
+
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, organization=form.organization.data)
         role = Role.query.filter_by(name=form.role.data).first()
-        user.roles.append(role)
+        user.role = role
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
+
     return render_template('register.html', title='Register', form=form, roles = available_roles, template = "base-admin.html")
 
 
@@ -96,8 +102,10 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
-        send_mail()
+        # send_mail()
+
         return render_template('confirmation.html')
+
         flash('Form Completed!')
     return render_template('collectionform.html',
                            title='Collection Form',
@@ -108,31 +116,73 @@ def collectionform():
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
-    if 'admin' in current_user.all_roles():
-        raw_data = db.session.query(Update, User).order_by(Update.timestamp).join(User).all()
+    if current_user.role.name == 'admin':
         update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
         user_fields = ['organization']
 
+        # Sort --> Filter --> Paginate
+
+        filter_by = request.args.get('filter_by')
+        filter = request.args.get('filter')
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 5, type=int)
+        sort_by = request.args.get('sort_by')
+        sort_order = request.args.get('sort_order')
+        sort_query = sort_by + ' ' + sort_order if sort_by else None
+
+        # Sort query
+        if sort_query:
+            if sort_by in user_fields:
+                updates = db.session.query(Update).join(User).order_by(
+                    getattr(User, sort_by).desc()).paginate(
+                        page=page, per_page=per_page
+                    ) if sort_order == 'desc' else db.session.query(
+                        Update).join(User).order_by(
+                            getattr(User, sort_by).asc())
+            else:
+                updates = Update.query.order_by(text(sort_query))
+        else:
+            updates = Update.query
+
+        #Filter query
+        # Create fields and filters
+        filters = {}
+
+        for field in update_fields:
+            if field not in filters:
+                filters[field] = [x[0] for x in db.session.query(getattr(Update, field).distinct()).all()]
+
+        for field in user_fields:
+            if field not in filters:
+                filters[field] = [x[0] for x in db.session.query(getattr(User, field).distinct()).all()]
+
+        #Timestamp
+        start = request.args.get('start_date') 
+        end = request.args.get('end_date')
+
+        if not start:
+            updates = updates.filter(func.DATE(Update.timestamp) >= db.session.query(func.min(Update.timestamp)).one()[0].date())
+        else:
+            updates = updates.filter(func.DATE(Update.timestamp) >= datetime.strptime(start, '%m/%d/%Y').date())
+
+        if not end:
+            updates = updates.filter(func.DATE(Update.timestamp) <= db.session.query(func.max(Update.timestamp)).one()[0].date())
+        else:
+            updates = updates.filter(func.DATE(Update.timestamp) <= datetime.strptime(end, '%m/%d/%Y').date())
+
+        #Paginate
+        updates = updates.paginate(per_page=per_page, page=page)
+
         if request.method == 'GET':
-            data = []
-
-            for row in raw_data:
-                update = row[0]
-                user = row[1]
-                new_row = []
-
-                for field in update_fields:
-                    new_row.append(getattr(update, field))
-
-                for field in user_fields:
-                    new_row.append(getattr(user, field))
-
-                data.append(new_row)
-
             return render_template('admin_dashboard.html',
                                 title='Admin Dashboard',
-                                fields=update_fields+user_fields,
-                                data=data)
+                                update_fields=update_fields,
+                                user_fields=user_fields,
+                                sort_by=sort_by,
+                                sort_order=sort_order,
+                                # filter_by=filter_by,
+                                # filters=filters,
+                                updates=updates)
 
         if request.method == 'POST':
             form = request.form.to_dict(flat=False)
@@ -143,20 +193,18 @@ def admin_dashboard():
             csvpath = csvpath + '/app/'
             csvheader = []
 
-            for row in raw_data:
-                update = row[0]
-                user = row[1]
+            for update in updates.items:
                 new_row = []
 
                 for field in update_fields:
                     if field in form:
-                        new_row.append(getattr(update, field))
+                        new_row.append(getattr(update,field))
                         if field not in csvheader:
                             csvheader.append(field)
 
                 for field in user_fields:
                     if field in form:
-                        new_row.append(getattr(user, field))
+                        new_row.append(getattr(update.user,field))
                         if field not in csvheader:
                             csvheader.append(field)
 
@@ -170,6 +218,34 @@ def admin_dashboard():
             path = 'data.csv'
 
             return send_file(path, as_attachment=True)
+
+    else:
+        return render_template('404.html')
+
+
+@app.route('/admin_profiles', methods=['GET', 'POST'])
+@login_required
+def admin_profiles():
+    if current_user.role.name == 'admin':
+        if request.method == 'GET':
+            users = User.query.all()
+            user_fields = ['id', 'username', 'email', 'role', 'organization']
+            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+
+            return render_template('profile_page.html', user_fields=user_fields, users=users)
+
+    else:
+        return render_template('404.html')
+
+@app.route('/admin_profiles/delete/<int:id>')
+@login_required
+def delete_profile(id):
+    if current_user.role.name == 'admin':
+        user_to_delete = User.query.get(id)
+        db.session.delete(user_to_delete)
+        db.session.commit()
+
+        return redirect(url_for('admin_profiles'))
 
     else:
         return render_template('404.html')
@@ -206,13 +282,16 @@ def terms_and_privacy():
                            title='Please read to continue', template=admin_template_validation())
 
 def admin_template_validation():
-    if 'admin' in current_user.all_roles():
+    if current_user.role.name == 'admin':
         return 'base-admin.html'
     return 'base.html'
 
 def send_mail():
     msg = Message("Submisson Confirmation",
-                  sender = os.environ.get('EMAIL'),
-                  recipients=[os.environ.get('EMAIL')])
+                #   sender = os.environ.get('EMAIL'),
+                #   recipients=[os.environ.get('EMAIL')]
+                  sender = 'demo@gmail.com',
+                  recipients = ['qixuankhoo@gmail.com'])
+
     msg.body = "Thank you for your submission. The next collection date is _______."
     mail.send(msg)
