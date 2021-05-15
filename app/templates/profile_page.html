@@ -19,7 +19,11 @@
                             {% for user in users %}
                             <tr>
                                 {% for field in user_fields %}
-                                    <th> {{ user[field] }}</th>
+                                    {% if field == 'role' %}
+                                        <th>{{ user.role.name }}</th>
+                                    {% else %}
+                                        <th> {{ user[field] }}</th>
+                                    {% endif %}
                                 {% endfor %}
                                 <th>
                                     <a class="btn btn-danger" href="/admin_profiles/delete/{{ user.id }}" onclick="return confirm('Are you sure you want to delete this profile?')" style="color:white;">Delete</a>
