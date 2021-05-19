@@ -1,25 +1,38 @@
 .btn-primary {
-  background: #012169;
+  background: #7b9bb6
 }
 
 .display-4 {
-  text-align: center;
+  text-align: left;
+  font-family: Merriweather, serif;
+  margin-left: 7%;
+  color: #6f5193;
 }
 
 .lead {
+  text-align: left;
+  margin-left: 7%;
+}
+
+.lead-2 {
   text-align: center;
+  margin-bottom: 0px;
 }
 
 #please-click {
   text-align: center;
 }
 
+.card {
+  background-color: #7b9bb6;
+}
+
 .card-title {
-  color: #012169;
+  color: white;
 }
 
 .card-text {
-  color: #012169;
+  color: white;
 }
 
 footer {
@@ -29,4 +42,16 @@ footer {
   width: 100%;
   height: 60px;
   line-height: 60px;
+}
+
+.jumbotron {
+  background-color: #bdacd1;
+}
+
+body {
+  background-color: #d1bdac;
+}
+
+.my-5 {
+  color: #6f5193;
 }

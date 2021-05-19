@@ -7,13 +7,12 @@
 {% endblock %}
 
 {% block content %}
-<br><br>
-    <div class="jumbotron">
-      <h1 class="display-4">Duke University Domestic Violence Data Pipeline Project</h1>
+    <div class="jumbotron jumbotron-fluid">
+      <h1 class="display-4">Duke University Domestic Violence<br> Data Pipeline Project</h1><br>
       <p class="lead">Making North Carolina a safer and smarter place through data analysis for better decision-making</p>
       <hr class="my-4">
-      <p id="please-click">Please click the button below to begin the data entry process.</p>
-      <p class="lead">
+      <p id="please-click">Begin the data entry process:</p>
+      <p class="lead-2">
         <a href="{{ url_for('terms_and_privacy') }}" class="btn btn-primary btn-lg">Collection Form</a>
       </p>
     </div>
@@ -21,7 +20,7 @@
         <div class="col">
             <a href="{{ url_for('disclosure') }}">
                 <div class="card h-100">
-                    <div class="card-body text-center">
+                    <div class="card-body text-left">
                         <h5 class="card-title">About our data protection and handling practices</h5>
                         <p class="card-text">Learn more about how we are protecting and handling the data.</p>
                     </div>
@@ -31,7 +30,7 @@
         <div class="col">
             <a href="{{ url_for('research') }}">
                 <div class="card h-100">
-                    <div class="card-body text-center">
+                    <div class="card-body text-left">
                         <h5 class="card-title">About our research</h5>
                         <p class="card-text">Learn more about what we do with the data we collect and how we can help you.</p>
                     </div>
@@ -41,7 +40,7 @@
         <div class="col">
             <a href="{{ url_for('team') }}">
                 <div class="card h-100">
-                    <div class="card-body text-center">
+                    <div class="card-body text-left">
                         <h5 class="card-title">About our team</h5>
                         <p class="card-text">Learn more about our team and the people working on this project.</p>
                     </div>
@@ -51,7 +50,7 @@
         <div class="col">
             <a href="{{ url_for('contact_us') }}">
                 <div class="card h-100">
-                    <div class="card-body text-center">
+                    <div class="card-body text-left">
                         <h5 class="card-title">Contact us</h5>
                         <p class="card-text">If you need to get in touch with us, please find it here.</p>
                     </div>
