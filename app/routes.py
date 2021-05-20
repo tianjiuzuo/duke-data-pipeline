@@ -165,14 +165,13 @@ def admin_dashboard():
         sort_by = request.args.get('sort_by')
         sort_order = request.args.get('sort_order')
         sort_query = sort_by + ' ' + sort_order if sort_by else None
+        filtered = False
 
         # Sort query
         if sort_query:
             if sort_by in user_fields:
                 updates = db.session.query(Update).join(User).order_by(
-                    getattr(User, sort_by).desc()).paginate(
-                        page=page, per_page=per_page
-                    ) if sort_order == 'desc' else db.session.query(
+                    getattr(User, sort_by).desc()) if sort_order == 'desc' else db.session.query(
                         Update).join(User).order_by(
                             getattr(User, sort_by).asc())
             else:
@@ -193,18 +192,20 @@ def admin_dashboard():
                 filters[field] = [x[0] for x in db.session.query(getattr(User, field).distinct()).all()]
 
         #Timestamp
-        start = request.args.get('start_date') 
+        start = request.args.get('start_date')
         end = request.args.get('end_date')
 
         if not start:
             updates = updates.filter(func.DATE(Update.timestamp) >= db.session.query(func.min(Update.timestamp)).one()[0].date())
         else:
             updates = updates.filter(func.DATE(Update.timestamp) >= datetime.strptime(start, '%m/%d/%Y').date())
+            filtered = True
 
         if not end:
             updates = updates.filter(func.DATE(Update.timestamp) <= db.session.query(func.max(Update.timestamp)).one()[0].date())
         else:
             updates = updates.filter(func.DATE(Update.timestamp) <= datetime.strptime(end, '%m/%d/%Y').date())
+            filtered = True
 
         #Paginate
         updates = updates.paginate(per_page=per_page, page=page)
@@ -216,6 +217,7 @@ def admin_dashboard():
                                 user_fields=user_fields,
                                 sort_by=sort_by,
                                 sort_order=sort_order,
+                                filtered=filtered,
                                 # filter_by=filter_by,
                                 # filters=filters,
                                 updates=updates)

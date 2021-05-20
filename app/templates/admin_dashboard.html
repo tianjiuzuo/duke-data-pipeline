@@ -3,11 +3,11 @@
 {% block content %}
 
 <br>
-<div class="row justify-content-center">
-    <h1>Recent Updates</h1>
+<div class="row justify-content-center mb-2">
+    <h1 class="mb-3">Recent Updates</h1>
 </div>
 <div class="row">
-    <div class="d-flex col-12 flew-row justify-content-end align-items-center">
+    <div class="d-flex col-12 flew-row justify-content-end">
         <!-- <div class="mr-2">
             <label for="filter_by">Filter by</label>
             <select name="filter_by" id="filter_by">
@@ -34,7 +34,7 @@
             <label for="filter">Filter Condition</label>
             <select name="filter" id="filter"></select>
         </div> -->
-        <div class="mr-2">
+        <div class="mr-2 align-self-center">
             <label for="sort_by">Sort by</label>
             <select name="sort_by" id="sort_by">
                 {% if not sort_by %}
@@ -56,13 +56,13 @@
                 {% endfor %}
             </select>
         </div>
-         <div>
+         <div class="align-self-center">
             <label for="sort_order">Order</label>
-            <select name="sort_order" id="sort_order" onchange=sort()>
-                <option value="" selected disabled></option>
-                <option value="asc">Asc</option>
-                <option value="desc">Desc</option>
-                <!-- {% if sort_order == 'asc'%}
+            <select name="sort_order" id="sort_order">
+                {% if not sort_order %}
+                    <option value="" selected disabled></option>
+                {% endif %}
+                {% if sort_order == 'asc'%}
                     <option value="asc" selected>Asc</option>
                 {% else %}
                     <option value="asc">Asc</option>
@@ -71,12 +71,25 @@
                     <option value="desc" selected>Desc</option>
                 {% else %}
                     <option value="desc">Desc</option>
-                {% endif %} -->
+                {% endif %}
             </select>
         </div>
-        <button type="button" class="btn btn-primary mx-2" data-toggle="modal" data-target="#filterModal">
-            Create Filter
-        </button>
+        <button type="button" class="btn btn-primary mx-2" onclick=sort()>Sort</button>
+        {% if filtered %}
+            <button id="createFilter" type="button" class="btn btn-primary mx-2" data-toggle="modal" data-target="#filterModal" style="display:none;">
+                Create Filter
+            </button>
+            <button id="removeFilter" type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#filterModal" style="display:inline;" onclick="window.location.href='/admin_dashboard'">
+                Remove Filter
+            </button>
+        {% else %}
+            <button id="createFilter" type="button" class="btn btn-primary mx-2" data-toggle="modal" data-target="#filterModal" style="display:inline;">
+                Create Filter
+            </button>
+            <button id="removeFilter" type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#filterModal" style="display:none;" onclick="window.location.href='/admin_dashboard'">
+                Remove Filter
+            </button>
+        {% endif %}
         <button type="button" class="btn btn-primary mx-2" data-toggle="modal" data-target="#downloadModal">
             Download Data
         </button>
@@ -133,7 +146,11 @@
                     </div>
                     {% for page_num in updates.iter_pages() %}
                         {% if page_num %}
-                            <a class="btn btn-outline-info mb-3" href="{{ url_for('admin_dashboard', page=page_num) }}" >{{ page_num }}</a>
+                            {% if updates.page == page_num %}
+                                <option id="{{ page_num }}" class="btn btn-info mb-3" value="{{ page_num }}" onclick=page(this.id) >{{ page_num }}</option>
+                            {% else %}
+                                <option id="{{ page_num }}" class="btn btn-outline-info mb-3" value="{{ page_num }}" onclick=page(this.id) >{{ page_num }}</option>
+                            {% endif %}
                         {% else %}
                             ...
                         {% endif %}
@@ -232,7 +249,6 @@
                                         </label>
                                     </div>
                                     {% endfor %} -->
-                                    
                                 </div>
                             </div>
                         </div>
@@ -255,6 +271,10 @@
     $('#end_date').datepicker({
         uiLibrary: 'bootstrap4'
     });
+
+    document.addEventListener('DOMContentLoad', function() {
+
+    }, false)
 
     $(function(){
        $('#modal-form').on('submit', function(e){
@@ -303,18 +323,37 @@
         // var sort_by = document.getElementById('sort_by').value != '' ? document.getElementById('sort_by').value : 'timestamp';
         // var sort_order = document.getElementById('sort_order').value != '' ? document.getElementById('sort_order').value : 'desc';
 
-        var start = document.getElementById('start_date').value
-        var end = document.getElementById('end_date').value
+        var start = document.getElementById('start_date').value;
+        var end = document.getElementById('end_date').value;
+        
+        document.getElementById('createFilter').style.display = "none";
+        document.getElementById('removeFilter').style.display = "inline";
         
         // window.location.href='/admin_dashboard?filter_by='+filter_by+'&filter='+filter+'&sort_by='+sort_by+'&sort_order='+sort_order;
         window.location.href='/admin_dashboard?start_date='+start+'&end_date='+end;
     }
 
+    function removeFilter() {
+        
+        document.getElementById('createFilter').style.display = "inline";
+        document.getElementById('removeFilter').style.display = "display";
+        
+        window.location.href='/admin_dashboard';
+    }
+
+    function page(page_id) {
+        var per_page = document.getElementById('per_page').value;
+        var page_num = document.getElementById(page_id).value; 
+        
+        window.location.href='/admin_dashboard?per_page='+per_page+'&page='+page_num;
+    }
+
     function sort() {
         var sort_by = document.getElementById('sort_by').value;
         var sort_order = document.getElementById('sort_order').value;
-        
-        window.location.href='/admin_dashboard?sort_by='+sort_by+'&sort_order='+sort_order;
+        var per_page = document.getElementById('per_page').value;
+
+        window.location.href='/admin_dashboard?sort_by='+sort_by+'&sort_order='+sort_order+'&per_page='+per_page;
     }
 
 </script>
