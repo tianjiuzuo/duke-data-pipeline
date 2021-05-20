@@ -15,7 +15,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    role = StringField('Role', validators=[DataRequired()])
+    role = SelectField('Role', choices=[('admin', 'admin'), ('shelter', 'shelter')], validators=[DataRequired()])
     organization = StringField('Organization', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(

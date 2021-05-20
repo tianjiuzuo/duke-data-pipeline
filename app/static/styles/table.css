@@ -1,0 +1,40 @@
+h1 {
+    font-family: 'Merriweather', sans-serif;
+  }
+  .container {
+    width: 100%;
+    margin-top: 5%;
+    padding: 0px;
+  }
+  
+  h3 {
+    font-family: 'Merriweather', sans-serif;
+  }
+  
+  footer {
+    text-align: center;
+    position:absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+  }
+  
+  body {
+    background-color: #bdacd1;
+  }
+
+  thead {
+      color: white;
+      background-color: #967bb6;
+  }
+
+  table {
+    width:100%; 
+    text-align:left; 
+    color:white;
+  }
+
+  .btn-info, .btn-primary {
+    background-color: #7b9bb6;
+  }

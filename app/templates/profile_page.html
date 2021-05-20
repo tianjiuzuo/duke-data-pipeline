@@ -1,21 +1,28 @@
 {% extends "base-admin.html" %}
 
+{% block styles %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='styles/table.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+{% endblock %}
+
 {% block content%}
 
 <!-- Info -->
 <div class="container">
+<h1 class="text-center my-5">User Profiles</h1>
+
     <div class="row col-12 py-5">
         <div class="col-lg-10 mx-auto">
-            <div class="card rounded shadow border-0">
-                <div class="card-body p-5 bg-white rounded">
                     <div class="table-responsive">
-                        <table id="admin-dashboard" style="width:100%; text-align:center" class="table table-striped table-bordered">
-                            <thead style="font-weight:bold">
+                        <table id="admin-dashboard" class="table table-bordered table-striped">
+                            <thead>
                             {% for field in user_fields %}
                                 <td>{{ field.replace('_', ' ').capitalize() }}</td>
                             {% endfor %}
                             <td> </td>
                             </thead>
+                            <tbody>
                             {% for user in users %}
                             <tr>
                                 {% for field in user_fields %}
@@ -30,10 +37,9 @@
                                 </th>
                             </tr> 
                             {% endfor %}
+                            </tbody>    
                         </table>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

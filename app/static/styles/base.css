@@ -18,3 +18,22 @@
 .navbar-nav > li > a {
   margin-left: 19px;
 }
+
+thead {
+  font-weight: bold;
+  color: black;
+}
+
+th {
+  font-weight: normal;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #d1bdac;
+ }
+
+ .table-striped>tbody>tr:nth-child(even)>td, 
+.table-striped>tbody>tr:nth-child(even)>th {
+   background-color: #acc0d1;
+ }
