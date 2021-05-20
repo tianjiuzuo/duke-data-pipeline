@@ -1,6 +1,6 @@
 .team-clean {
   color: #313437;
-  background-color: #fff;
+  background-color: #bdacd1;
 }
 
 .team-clean p {
@@ -37,7 +37,7 @@
 }
 
 .team-clean .item {
-  text-align: center;
+  text-align: left;
   padding-top: 50px;
 }
 
@@ -51,7 +51,7 @@
 .team-clean .item .title {
   text-transform: uppercase;
   font-weight: bold;
-  color: #d0d0d0;
+  color: #967bb6;
   letter-spacing: 2px;
   font-size: 13px;
 }
@@ -82,3 +82,16 @@
   opacity: 1;
 }
 
+hr {
+  height: 1px;
+  border: none;
+  outline: none;
+  position: relative;
+  border-top: dotted;
+  border-color: #967bb6;
+}
+
+
+hr#one {
+  width: 60%;
+}

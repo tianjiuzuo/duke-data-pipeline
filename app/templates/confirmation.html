@@ -2,19 +2,18 @@
 
 {% block styles %}
 {{ super() }}
-<link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='styles/confirmation.css') }}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <div class="jumbotron text-center">
-    <h1 class="display-3">Thank You!</h1>
-    <p class="lead">Your next collection date is ______</p>
-    <hr>
+    <h1 class="display-3">Thank You!</h1><br>
+    <p class="lead">Your form was submitted successfully. The next collection date is ______</p><br><br>
     <p>
       Having trouble? <a href="{{ url_for('contact_us') }}">Contact us</a>
     </p>
-    <p class="lead">
+    <p class="lead-2">
       <a class="btn btn-primary btn-md" href="{{ url_for('logout') }}" role="button">Logout</a>
     </p>
   </div>

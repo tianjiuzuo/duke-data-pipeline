@@ -2,7 +2,11 @@ h1 {
   font-family: 'Merriweather', sans-serif;
 }
 .container {
-  margin: 25px 120px;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  background-color: #d1bdac;
+  padding: 5%;
 }
 
 .btn-primary {
@@ -11,4 +15,8 @@ h1 {
 
 h3 {
   font-family: 'Merriweather', sans-serif;
+}
+
+body {
+  background-color: #acc0d1;
 }

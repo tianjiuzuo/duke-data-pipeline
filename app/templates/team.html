@@ -2,26 +2,27 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/team.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/Team-Clean.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <h1 class="text-center" style="text-align: center;font-family: Merriweather, serif;margin-top: 31px;">Our Team</h1>
+    <hr id="one" data-symbol="☂☂☂">
     <h3 class="text-center" style="text-align: center;font-family: Merriweather, serif;margin-top: 30px;margin-bottom: 27px;">Professors</h3>
     <div class="team-clean">
         <div class="container">
             <div class="intro"></div>
             <div class="row people">
-                <div class="col-md-6 col-lg-4 offset-lg-2 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Hoffman.jpg') }}">
+                <div class="col-md-6 col-lg-4 offset-lg-1 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Hoffman.jpg') }}">
                     <h3 class="name">David Hoffman</h3>
                     <p class="title">Duke Sanford School</p>
                     <p class="description">David Hoffman is the Steed Family Professor of the Practice of Cybersecurity Policy at the Sanford School of Public Policy. He also is Associate General Counsel and Global Privacy Officer for Intel Corporation.<br></p>
                 </div>
-                <div class="col-md-6 col-lg-4 offset-lg-0 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Dellinger.jpg') }}">
+                <div class="col-md-6 col-lg-4 offset-lg-2 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Dellinger.jpg') }}">
                     <h3 class="name">Jolynn Dellinger</h3>
-                    <p class="title">Duke Law school</p>
+                    <p class="title">Duke Law School</p>
                     <p class="description">Ms. Dellinger teaches Privacy Law and Policy at the Duke University School of Law and at the&nbsp;UNC School of Law. She is also the Special Counsel for Privacy Policy and Litigation for the NC Department of Justice.<br></p>
                 </div>
             </div>
