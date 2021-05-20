@@ -11,7 +11,43 @@ from flask_mail import Message
 from sqlalchemy.sql import text
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
+
+def emailReminders():
+    tomorrow = datetime.now() + timedelta(days=1)
+    tomorrow_date = tomorrow.strftime('%d')
+    if tomorrow_date == "01":
+        with app.app_context():
+           msg = Message("Submisson Reminder",
+                #   sender = os.environ.get('EMAIL'),
+                #   recipients=[os.environ.get('EMAIL')]
+                  sender = 'demo@gmail.com',
+                  recipients = ['qixuankhoo@gmail.com'])
+           msg.body = "This is a reminder to submit your shelter's data. The window for submission opens tomorrow."
+           mail.send(msg)
+    
+    week = datetime.now() + timedelta(days=7)
+    week_date = week.strftime('%d')
+    if week_date == "01":
+        with app.app_context():
+            msg = Message("Submisson Reminder",
+                #   sender = os.environ.get('EMAIL'),
+                #   recipients=[os.environ.get('EMAIL')]
+                  sender = 'demo@gmail.com',
+                  recipients = ['qixuankhoo@gmail.com'])
+
+            msg.body = "This is a reminder to submit your shelter's data. The window for submission opens next week."
+            mail.send(msg)
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=emailReminders, trigger="interval", seconds=10)
+scheduler.start()
+
 
 @app.route('/')
 @app.route('/index')
@@ -102,7 +138,7 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
-        # send_mail()
+       # send_mail()
 
         return render_template('confirmation.html')
 
@@ -295,3 +331,6 @@ def send_mail():
 
     msg.body = "Thank you for your submission. The next collection date is _______."
     mail.send(msg)
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
