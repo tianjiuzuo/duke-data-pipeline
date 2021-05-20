@@ -45,7 +45,7 @@ def emailReminders():
             mail.send(msg)
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=emailReminders, trigger="interval", seconds=10)
+scheduler.add_job(func=emailReminders, trigger="interval", days=1)
 scheduler.start()
 
 
