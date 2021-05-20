@@ -11,7 +11,24 @@ from flask_mail import Message
 from sqlalchemy.sql import text
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import atexit
+
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
+def print_date_time():
+    tomorrow = datetime.now() + timedelta(days=1)
+    tomorrow_date = tomorrow.strftime('%d')
+    if tomorrow_date == "21":
+        print("yes")
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=print_date_time, trigger="interval", seconds=10)
+scheduler.start()
+
 
 @app.route('/')
 @app.route('/index')
@@ -291,7 +308,10 @@ def send_mail():
                 #   sender = os.environ.get('EMAIL'),
                 #   recipients=[os.environ.get('EMAIL')]
                   sender = 'demo@gmail.com',
-                  recipients = ['qixuankhoo@gmail.com'])
+                  recipients = ['yvonnekuo@live.com'])
 
     msg.body = "Thank you for your submission. The next collection date is _______."
     mail.send(msg)
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
