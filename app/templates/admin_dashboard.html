@@ -134,7 +134,7 @@
                     </table>
                     <div class="mr-2">
                         <label for="per_page">Updates Per Page</label>
-                        <select name="per_page" id="per_page" onchange="window.location.href='/admin_dashboard?per_page='+this.value">
+                        <select name="per_page" id="per_page" onchange=per_page(this.id)>
                             {% for i in range(5,21,5) %}
                                 {% if i == updates.per_page %}
                                     <option value="{{ i }}" selected>{{ i }}</option>
@@ -227,11 +227,11 @@
                                 <div class="d-flex flex-column">
                                     <div class="p-2 text-left">
                                         <label for="start_date">From</label>
-                                        <input id="start_date" width="276" />   
+                                        <input id="start_date" width="276" value="{{ start }}"/>   
                                     </div>
                                     <div class="p-2 text-left">
                                         <label for="end_date">To</label>
-                                        <input id="end_date" width="276" />
+                                        <input id="end_date" width="276" value="{{ }}"/>
                                     </div>
                                     <!-- {% for field in update_fields %}
                                     <div class="p-2 text-left">
@@ -334,26 +334,41 @@
     }
 
     function removeFilter() {
-        
         document.getElementById('createFilter').style.display = "inline";
         document.getElementById('removeFilter').style.display = "display";
         
         window.location.href='/admin_dashboard';
     }
 
+    function per_page(per_page_id) {
+        var sort_by = document.getElementById('sort_by').value;
+        var sort_order = document.getElementById('sort_order').value;
+        var start = document.getElementById('start_date').value;
+        var end = document.getElementById('end_date').value;
+        var per_page = document.getElementById('per_page').value;
+        
+        window.location.href='/admin_dashboard?per_page='+per_page+'&sort_by='+sort_by+'&sort_order='+sort_order+'&start_date='+start+'&end_date='+end;
+    }
+
     function page(page_id) {
+        var sort_by = document.getElementById('sort_by').value;
+        var sort_order = document.getElementById('sort_order').value;
+        var start = document.getElementById('start_date').value;
+        var end = document.getElementById('end_date').value;
         var per_page = document.getElementById('per_page').value;
         var page_num = document.getElementById(page_id).value; 
         
-        window.location.href='/admin_dashboard?per_page='+per_page+'&page='+page_num;
+        window.location.href='/admin_dashboard?per_page='+per_page+'&page='+page_num+'&sort_by='+sort_by+'&sort_order='+sort_order+'&start_date='+start+'&end_date='+end;
     }
 
     function sort() {
+        var start = document.getElementById('start_date').value;
+        var end = document.getElementById('end_date').value;
         var sort_by = document.getElementById('sort_by').value;
         var sort_order = document.getElementById('sort_order').value;
         var per_page = document.getElementById('per_page').value;
 
-        window.location.href='/admin_dashboard?sort_by='+sort_by+'&sort_order='+sort_order+'&per_page='+per_page;
+        window.location.href='/admin_dashboard?sort_by='+sort_by+'&sort_order='+sort_order+'&per_page='+per_page+'&start_date='+start+'&end_date='+end;
     }
 
 </script>

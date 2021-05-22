@@ -192,8 +192,8 @@ def admin_dashboard():
                 filters[field] = [x[0] for x in db.session.query(getattr(User, field).distinct()).all()]
 
         #Timestamp
-        start = request.args.get('start_date')
-        end = request.args.get('end_date')
+        start = request.args.get('start_date', '')
+        end = request.args.get('end_date', '')
 
         if not start:
             updates = updates.filter(func.DATE(Update.timestamp) >= db.session.query(func.min(Update.timestamp)).one()[0].date())
@@ -218,6 +218,8 @@ def admin_dashboard():
                                 sort_by=sort_by,
                                 sort_order=sort_order,
                                 filtered=filtered,
+                                start=start,
+                                end=end,
                                 # filter_by=filter_by,
                                 # filters=filters,
                                 updates=updates)
