@@ -15,8 +15,7 @@ from datetime import datetime, timedelta
 import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
-
-
+from dateutil import relativedelta
 
 def emailReminders():
     tomorrow = datetime.now() + timedelta(days=1)
@@ -140,7 +139,9 @@ def collectionform():
         db.session.commit()
        # send_mail()
 
-        return render_template('confirmation.html')
+        nextmonth = datetime.today() + relativedelta.relativedelta(months=1)
+        nextmonth = nextmonth.strftime('%B') + " 1st"
+        return render_template('confirmation.html', nextmonth = nextmonth)
 
         flash('Form Completed!')
     return render_template('collectionform.html',
@@ -333,7 +334,9 @@ def send_mail():
                   sender = 'demo@gmail.com',
                   recipients = ['qixuankhoo@gmail.com'])
 
-    msg.body = "Thank you for your submission. The next collection date is _______."
+    nextmonth = datetime.today() + relativedelta.relativedelta(months=1)
+    nextmonth = nextmonth.strftime('%B') + " 1st"
+    msg.body = "Thank you for your submission. The next collection date is " + nextmonth + "."
     mail.send(msg)
 
 # Shut down the scheduler when exiting the app
