@@ -1,7 +1,22 @@
+*{
+  font-family: "Open Sans";
+}
+
 .navbar-brand>img {
   width:120px !important;
 }
-.rightControl {
-    list-style-type:none;
-    margin-left: 15px;
+
+.navbar-custom {
+  background-color: #CDB6ED;
+}
+
+.nav-link {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.navbar-collapse {
+  border-left: 2px solid;
+  color: white;
 }
