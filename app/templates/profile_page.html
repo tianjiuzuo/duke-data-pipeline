@@ -1,42 +1,51 @@
 {% extends "base-admin.html" %}
 
-{% block content%}
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='styles/table.css') }}" rel="stylesheet">
+{% endblock %}
 
-<!-- Info -->
-<div class="container">
-    <div class="row col-12 py-5">
-        <div class="col-lg-10 mx-auto">
-            <div class="card rounded shadow border-0">
-                <div class="card-body p-5 bg-white rounded">
+{% block content %}
+
+<div class="container col-12 mt-5">
+    <h1 class="text-center mt-5 mb-4">User Profiles</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="card shadow border-0 mb-5">
+                <div class="card-body text-left p-5 rounded">
                     <div class="table-responsive">
-                        <table id="admin-dashboard" style="width:100%; text-align:center" class="table table-striped table-bordered">
-                            <thead style="font-weight:bold">
-                            {% for field in user_fields %}
-                                <td>{{ field.replace('_', ' ').capitalize() }}</td>
-                            {% endfor %}
-                            <td> </td>
+                        <table id="admin-dashboard" class="table table-striped table-borderless">
+                            <thead>
+                                <tr>
+                                    {% for field in user_fields %}
+                                        <th>{{ field.replace('_', ' ').capitalize() }}</th>
+                                    {% endfor %}
+                                    <th>Delete User</th>
+                                </tr>
                             </thead>
+                            <tbody>
                             {% for user in users %}
                             <tr>
                                 {% for field in user_fields %}
                                     {% if field == 'role' %}
-                                        <th>{{ user.role.name }}</th>
+                                        <td>{{ user.role.name }}</td>
                                     {% else %}
-                                        <th> {{ user[field] }}</th>
+                                        <td> {{ user[field] }}</td>
                                     {% endif %}
                                 {% endfor %}
-                                <th>
-                                    <a class="btn btn-danger" href="/admin_profiles/delete/{{ user.id }}" onclick="return confirm('Are you sure you want to delete this profile?')" style="color:white;">Delete</a>
-                                </th>
+                                <td>
+                                    <a class="btn-sm btn-danger" href="/admin_profiles/delete/{{ user.id }}" onclick="return confirm('Are you sure you want to delete this profile?')" style="color:white;">Delete</a>
+                                </td>
                             </tr> 
                             {% endfor %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+  </div>
 
 <!-- Updates -->
 
