@@ -1,9 +1,6 @@
 h1 {
   font-family: 'Merriweather', sans-serif;
 }
-.container {
-  margin: 25px 120px;
-}
 
 h3 {
   font-family: 'Merriweather', sans-serif;
@@ -12,13 +9,4 @@ h3 {
 p {
   margin-top: 25px;
   margin-bottom: 25px;
-}
-
-footer {
-  text-align: center;
-  position:absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
 }

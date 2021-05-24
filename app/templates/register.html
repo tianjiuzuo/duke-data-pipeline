@@ -3,7 +3,7 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/collectionform.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/form.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 {% endblock %}
 
@@ -15,7 +15,7 @@
                 <div class="card-header text-center">Register User</div>
                 <div class="card-body">
                     <div>
-                        {{ render_form(form, form_type="horizontal", horizontal_columns=("md", "4", "6"), button_style="outline-secondary", extra_classes="form_group, form-control-label") }}
+                        {{ render_form(form, form_type="horizontal", horizontal_columns=("md", "4", "6"), button_style="outline-secondary") }}
                     </div>
                 </div>
             </div>

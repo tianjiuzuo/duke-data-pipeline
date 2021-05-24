@@ -3,21 +3,24 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/form.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 
-  <div class="container">
-    <h1 class="text-center my-5">Sign In</h1>
-    <div class="my-5 mx-5">
-      {{ render_form(form) }}
-    </div>
-  </div>
-  <footer class="footer">
-    <div class="container">
-      <span class="text-muted">Duke University Domestic Violence Data Pipeline Project</span>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+      <div class="col-md-8">
+          <div class="card">
+              <div class="card-header text-center">Sign In</div>
+              <div class="card-body">
+                  <div>
+                      {{ render_form(form, form_type="horizontal", horizontal_columns=("md", "4", "6"), button_style="outline-secondary") }}
+                  </div>
+              </div>
+          </div>
       </div>
-  </footer>
+  </div>
+</div>
 {% endblock %}
