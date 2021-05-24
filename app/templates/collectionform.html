@@ -3,18 +3,26 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/collectionform.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-  <div class="container align-items-center">
-    <h1 class="text-center my-5">Collection Form</h1>
-    <div class="alert alert-danger" role="alert">
-      Please do NOT enter any personally identifiable information! The form is configured to invalidate letters.
-    </div>
-    <div class="mx-auto">
-      {{ render_form(form) }}
-    </div>
+<div class="container mt-5">
+  <h1 class="text-center mt-5 mb-4">Collection Form</h1>
+  <div class="row justify-content-center">
+      <div class="col-md-8">
+          <div class="card shadow">
+              <div class="card-body">
+                <div class="alert alert-danger" role="alert">
+                  Please do NOT enter any personally identifiable information! The form is configured to invalidate letters.
+                </div>
+                  <div>
+                      {{ render_form(form, form_type="vertical", horizontal_columns=("md", "4", "6"), button_style="outline-secondary") }}
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
+</div>
 {% endblock %}

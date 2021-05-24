@@ -1,0 +1,12 @@
+.card {
+    background-color: #9F85C1;
+    color: white;
+}
+
+.btn {
+    background: #8BD1D3;
+    color: white;
+    font-size: 14px;
+    border: #8BD1D3;
+    font-weight: 800;
+  }

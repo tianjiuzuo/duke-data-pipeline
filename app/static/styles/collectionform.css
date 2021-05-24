@@ -1,3 +1,25 @@
+.alert {
+  text-align: center;
+  color: #D04545;
+  background-color: #FFC6C6;
+}
+
+.card {
+  background-color: #E5E5E5;
+  padding: 2%;
+}
+
 body {
-  background: linear-gradient(180deg, #FFFFFF 0%, #9F85C1 100%);
+  font-weight: 800;
+}
+
+.btn {
+  background-color: #F4F4F4;
+  color: black;
+}
+
+h1 {
+  font-size: 36px;
+  text-align: center;
+  font-family: 'Merriweather', sans-serif;
 }
