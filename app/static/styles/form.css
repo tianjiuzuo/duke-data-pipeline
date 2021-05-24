@@ -1,7 +1,7 @@
 .container {
     margin: 0 auto;
   }
-  
+
   .card {
     border-radius: 20px !important;
     overflow: hidden;
@@ -13,7 +13,7 @@
   
   .form-control-label {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     text-align: right;
   }
   

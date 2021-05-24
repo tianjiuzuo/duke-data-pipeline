@@ -1,11 +1,11 @@
 h1 {
   font-size: 36px;
   text-align: left;
-  font-family: 'Merriweather', sans-serif;
+  font-weight: bold;
 }
 
 h3 {
-  font-family: 'Merriweather', sans-serif;
+  font-weight: bold;
 }
 
 .btn {
@@ -13,7 +13,7 @@ h3 {
   color: white;
   font-size: 14px;
   border: #8BD1D3;
-  font-weight: 800;
+  font-weight: bold;
 }
 
 body {
