@@ -1,11 +1,26 @@
 h1 {
+  font-size: 36px;
+  text-align: left;
   font-family: 'Merriweather', sans-serif;
-}
-
-.btn-primary {
-  background: #012169;
 }
 
 h3 {
   font-family: 'Merriweather', sans-serif;
+}
+
+.btn {
+  background: #8BD1D3;
+  color: white;
+  font-size: 14px;
+  border: #8BD1D3;
+  font-weight: 800;
+}
+
+body {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E7E0EF 0.01%, #9F85C1 100%);
+  font-size: 14px;
+}
+
+.container {
+  width: 60%;
 }
