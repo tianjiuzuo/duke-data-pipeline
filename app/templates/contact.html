@@ -1,0 +1,27 @@
+﻿{% extends template %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/Contact-Form-v2-Modal--Full-with-Google-Map.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;font-family: Merriweather, serif;margin-top: 31px;">Contact Us</h1>
+<div>
+    <div>
+        <div>
+            <h2 style="text-align: center;margin-top: 60px;font-family: Merriweather, serif;">Contact Person</h2>
+            <h4 style="text-align: center;margin-top: 30px;margin-bottom: 30px;">Tianjiu Zuo</h4>
+            <h4 style="text-align: center;">Call: (919)-396-3881</h4>
+            <p style="text-align: center;margin-top: 23px;margin-bottom: 30px;">Available 9am-9pm Mon-Sun (except when in meeting)</p>
+        </div>
+        
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/Contact-Form-v2-Modal--Full-with-Google-Map.js') }}"></script>
+{% endblock %}
