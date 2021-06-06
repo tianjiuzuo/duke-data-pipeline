@@ -20,31 +20,31 @@ from dateutil import relativedelta
 def emailReminders():
     tomorrow = datetime.now() + timedelta(days=1)
     tomorrow_date = tomorrow.strftime('%d')
-    if tomorrow_date == "01":
+    if tomorrow_date == "25":
         with app.app_context():
            msg = Message("Submisson Reminder",
-                #   sender = os.environ.get('EMAIL'),
-                #   recipients=[os.environ.get('EMAIL')]
-                  sender = 'demo@gmail.com',
-                  recipients = ['qixuankhoo@gmail.com'])
+                  sender = os.environ.get('EMAIL'),
+                  recipients=[os.environ.get('EMAIL')])
+                #  sender = 'demo@gmail.com',
+                #  recipients = ['qixuankhoo@gmail.com'])
            msg.body = "This is a reminder to submit your shelter's data. The window for submission opens tomorrow."
            mail.send(msg)
     
     week = datetime.now() + timedelta(days=7)
     week_date = week.strftime('%d')
-    if week_date == "01":
+    if week_date == "31":
         with app.app_context():
             msg = Message("Submisson Reminder",
-                #   sender = os.environ.get('EMAIL'),
-                #   recipients=[os.environ.get('EMAIL')]
-                  sender = 'demo@gmail.com',
-                  recipients = ['qixuankhoo@gmail.com'])
+                  sender = os.environ.get('EMAIL'),
+                  recipients=[os.environ.get('EMAIL')])
+                #  sender = 'demo@gmail.com',
+                #  recipients = ['qixuankhoo@gmail.com'])
 
             msg.body = "This is a reminder to submit your shelter's data. The window for submission opens next week."
             mail.send(msg)
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=emailReminders, trigger="interval", days=1)
+scheduler.add_job(func=emailReminders, trigger="interval", seconds=10)
 scheduler.start()
 
 
@@ -137,7 +137,7 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
-       # send_mail()
+        send_mail()
 
         nextmonth = datetime.today() + relativedelta.relativedelta(months=1)
         nextmonth = nextmonth.strftime('%B') + " 1st"
@@ -313,7 +313,7 @@ def team():
 @app.route('/contact_us')
 @login_required
 def contact_us():
-    return render_template('contact_us.html', title='Contact Us', template=admin_template_validation())
+    return render_template('contact.html', title='Contact Us', template=admin_template_validation())
 
 
 @app.route('/terms_and_privacy')
@@ -332,7 +332,7 @@ def send_mail():
                 #   sender = os.environ.get('EMAIL'),
                 #   recipients=[os.environ.get('EMAIL')]
                   sender = 'demo@gmail.com',
-                  recipients = ['qixuankhoo@gmail.com'])
+                  recipients = [os.environ.get('EMAIL')])
 
     nextmonth = datetime.today() + relativedelta.relativedelta(months=1)
     nextmonth = nextmonth.strftime('%B') + " 1st"
