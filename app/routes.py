@@ -63,10 +63,12 @@ def index():
         },
         'body': 'The Avengers movie was so cool!'
     }]
-
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     if current_user.role.name == 'admin':
         return redirect(url_for('admin_dashboard'))
     return render_template('index.html', title='Home', posts=posts, template='base.html')
+    
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -95,13 +97,16 @@ def changePassword():
         user = User.query.filter_by(username=current_user.username).first()
         user.password_hash = generate_password_hash(form.password.data)
         db.session.commit()
-        flash('Password Updated!')
+        flash('Password Updated!', "error")
         return redirect(url_for('index'))
     return render_template('changePassword.html', title='Change Password', form=form, template=admin_template_validation())
 
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
 def register():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
     if current_user.role.name == 'shelter':
         return redirect(url_for('index'))
 
@@ -130,6 +135,9 @@ def logout():
 @app.route('/collectionform', methods=['GET', 'POST'])
 @login_required
 def collectionform():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
     form = CollectionForm()
     if form.validate_on_submit():
         submission = Update(user_id=current_user.get_id(),
@@ -153,6 +161,9 @@ def collectionform():
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
     if current_user.role.name == 'admin':
         update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
         user_fields = ['organization']
@@ -267,6 +278,9 @@ def admin_dashboard():
 @app.route('/admin_profiles', methods=['GET', 'POST'])
 @login_required
 def admin_profiles():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
     if current_user.role.name == 'admin':
         if request.method == 'GET':
             users = User.query.all()
@@ -281,6 +295,9 @@ def admin_profiles():
 @app.route('/admin_profiles/delete/<int:id>')
 @login_required
 def delete_profile(id):
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
     if current_user.role.name == 'admin':
         user_to_delete = User.query.get(id)
         db.session.delete(user_to_delete)
@@ -295,30 +312,40 @@ def delete_profile(id):
 @app.route('/research')
 @login_required
 def research():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     return render_template('research.html', title='Research', template=admin_template_validation())
 
 
 @app.route('/disclosure')
 @login_required
 def disclosure():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     return render_template('disclosure.html', title='Disclosure', template=admin_template_validation())
 
 
 @app.route('/team')
 @login_required
 def team():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     return render_template('team.html', title='Team', template=admin_template_validation())
 
 
 @app.route('/contact_us')
 @login_required
 def contact_us():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     return render_template('contact.html', title='Contact Us', template=admin_template_validation())
 
 
 @app.route('/terms_and_privacy')
 @login_required
 def terms_and_privacy():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
     return render_template('terms_and_privacy.html',
                            title='Please read to continue', template=admin_template_validation())
 
