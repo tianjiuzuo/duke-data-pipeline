@@ -1,7 +1,14 @@
 h1 {
-  font-family: 'Merriweather', sans-serif;
-}
-.container {
-  margin: 0 auto;
+  font-size: 36px;
   text-align: center;
+  font-weight: bold;
+}
+
+.container {
+  text-align: center;
+}
+
+.card-img {
+  height: 48px;
+  display: inline-block;
 }

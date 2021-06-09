@@ -2,25 +2,62 @@
 
 {% block styles %}
 {{ super() }}
-<link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='styles/contact_us.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" />
 <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/Contact-Form-v2-Modal--Full-with-Google-Map.css') }}">
 {% endblock %}
 
 {% block content %}
-<h1 style="text-align: center;font-family: Merriweather, serif;margin-top: 31px;">Contact Us</h1>
-<div>
-    <div>
-        <div>
-            <h2 style="text-align: center;margin-top: 60px;font-family: Merriweather, serif;">Contact Person</h2>
-            <h4 style="text-align: center;margin-top: 30px;margin-bottom: 30px;">Tianjiu Zuo</h4>
-            <h4 style="text-align: center;">Call: (919)-396-3881</h4>
-            <p style="text-align: center;margin-top: 23px;margin-bottom: 30px;">Available 9am-9pm Mon-Sun (except when in meeting)</p>
+<h1 class="my-5">Contact Us</h1>
+<div class="container text-left">
+    <div class="col-md-12">
+        <div class="card-group shadow">
+            <div class="card">
+                <div class="row justify-content-center">
+                    <div class="col-md-3 py-4 pl-5 pr-0">
+                        <img src="{{ url_for('static', filename='img/Person.svg') }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-9 pl-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Contact Person:</h5>
+                            <p class="card-text">Tianjiu Zuo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="row justify-content-center">
+                    <div class="col-md-3 py-4 pl-5 pr-0">
+                        <img src="{{ url_for('static', filename='img/Phone.svg') }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-9 pl-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Give us a call:</h5>
+                            <p class="card-text">(919)-396-3881</p>
+                            <p class="card-text"><small class="text-muted">Available 9am-9pm Mon-Sun (except when in meeting)</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="row justify-content-center">
+                    <div class="col-md-3 py-4 pl-5 pr-0">
+                        <img src="{{ url_for('static', filename='img/Email.svg') }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-9 pl-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Email us:</h5>
+                            <p class="card-text">tianjiu.zuo@duke.edu</p>
+                            <p class="card-text"><small class="text-muted">Please feel free to email me at any time.</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
     </div>
 </div>
+
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script src="{{ url_for('static', filename='js/Contact-Form-v2-Modal--Full-with-Google-Map.js') }}"></script>
