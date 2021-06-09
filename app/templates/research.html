@@ -8,19 +8,52 @@
 {% endblock %}
 
 {% block content %}
-<h1 style="text-align: center;margin-top: 25px;font-family: Merriweather, serif;">Our Research</h1>
-<h3 style="text-align: center;margin-top: 20px;margin-bottom: 24px;font-family: Merriweather, serif;">Prediction Modeling</h3>
-<p style="text-align: center;margin-right: 160px;margin-left: 160px;">Our regular collection of data allows us to build models to predict future trends for domestic violence shelters. For example, we report seasonal changes, so that shelters have advance information of when they might expect a surge for their services.
-    Knowing and acting on these trends not only helps shelters manage their resources more efficiently, but creates better outcomes for victims as well. We hope to deliver this knowledge at several levels: the shelter level, the county level, and
-    the state level.</p>
-<div class="container" style="text-align: center;"><img src="{{ url_for('static', filename='img/Prediction_Modeling_Image.png') }}" style="height: 500px;margin-right: 0px;margin-left: 0px;margin-top: 0px;padding-left: 0px;padding-right: 0px;"></div>
-<h3 style="text-align: center;margin-top: -34px;margin-right: 0px;margin-bottom: 24px;font-family: Merriweather, serif;">Empirical Research and Other Purposes</h3>
-<p style="text-align: center;margin-left: 160px;margin-right: 160px;">One of the problems that government agencies and domestic violence shelters frequently cite is the lack of real-world data to fully understand the domestic violence problem. We hope that through this collection, we are better able to draw conclusions
-    as to what exactly is contributing to the growth of this problem. Statistical analysis may show that previously un-linked factors lead to an increase in victimization, or solidify previous conclusions so we are better able to tackle them. This
-    data collection project will serve as the bedrock of that research. We guarantee that we will request permission to use the data you provide us explicitly.</p>
-<div class="container" style="text-align: center;"><img src="{{ url_for('static', filename='img/Empirical_Research_Image.png') }}" style="height: 500px;margin-top: -11px;"></div>
-<h3 style="text-align: center;margin-bottom: 29px;font-family: Merriweather, serif;">Awareness Raising</h3>
-<p style="text-align: center;margin-right: 160px;margin-left: 160px;">The data that we collect will be used to generate data visualizations and to provide credibility to awareness-raising campaigns to educate the public on the severity of the problem. We will produce data visualizations and infographics using aggregate
-    data for online and traditional media.</p>
-<div class="container" style="text-align: center;"><img src="{{ url_for('static', filename='img/Awareness_Raising.png') }}" style="height: 500px;margin-top: -6px;"></div>
+<h1 class="mt-5 mb-0">Our Research</h1>
+<div class="card shadow mt-4 col-md-9 p-0 border-0">
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <img src="{{ url_for('static', filename='img/Prediction_Modeling_Image.png') }}" class="card-img" alt="...">
+          </div>
+          <div class="text-card col-md-4" id="card-1">
+            <div class="card-body p-5">
+              <h5 class="card-title">Prediction Modeling</h5>
+              <p class="card-text">Our regular collection of data allows us to build models to predict future trends for domestic violence shelters. For example, we report seasonal changes, so that shelters have advance information of when they might expect a surge for their services.
+                Knowing and acting on these trends not only helps shelters manage their resources more efficiently, but creates better outcomes for victims as well. We hope to deliver this knowledge at several levels: the shelter level, the county level, and
+                the state level.</p>
+            </div>
+          </div>
+    </div>
+</div><br>
+
+<div class="card shadow mt-5 col-md-9 p-0 border-0 ml-auto">
+    <div class="row no-gutters">
+          <div class="text-card col-md-4" id="card-2">
+            <div class="card-body px-4 py-5">
+              <h5 class="card-title">Empirical Research and Other Purposes</h5>
+              <p class="card-text">One of the problems that government agencies and domestic violence shelters frequently cite is the lack of real-world data to fully understand the domestic violence problem. We hope that through this collection, we are better able to draw conclusions
+                as to what exactly is contributing to the growth of this problem. Statistical analysis may show that previously un-linked factors lead to an increase in victimization, or solidify previous conclusions so we are better able to tackle them. This
+                data collection project will serve as the bedrock of that research. We guarantee that we will request permission to use the data you provide us explicitly.</p>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <img src="{{ url_for('static', filename='img/Empirical_Research_Image.png') }}" class="card-img" alt="...">
+          </div>
+    </div>
+</div><br>
+
+<div class="card shadow my-5 p-0 col-md-9 border-0">
+    <div class="row no-gutters">
+        <div class="col-md-9">
+            <img src="{{ url_for('static', filename='img/Awareness_Raising.png') }}" class="card-img" alt="...">
+          </div>
+          <div class="text-card col-md-3" id="card-3">
+            <div class="card-body px-4 py-5">
+              <h5 class="card-title">Awareness Raising</h5>
+              <p class="card-text">The data that we collect will be used to generate data visualizations and to provide credibility to awareness-raising campaigns to educate the public on the severity of the problem. We will produce data visualizations and infographics using aggregate
+                data for online and traditional media.</p>
+            </div>
+          </div>
+    </div>
+</div><br>
+
 {% endblock %}
