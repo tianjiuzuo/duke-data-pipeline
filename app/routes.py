@@ -96,9 +96,12 @@ def changePassword():
     if form.validate_on_submit():
         user = User.query.filter_by(username=current_user.username).first()
         user.password_hash = generate_password_hash(form.password.data)
+        user.pwPrompted = True
         db.session.commit()
         flash('Password Updated!', "error")
         return redirect(url_for('index'))
+    if not current_user.pwPrompted and request.method == 'GET':
+        flash("You MUST change your password to access other pages","error")
     return render_template('changePassword.html', title='Change Password', form=form, template=admin_template_validation())
 
 @app.route('/register', methods=['GET', 'POST'])
