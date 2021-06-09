@@ -1,7 +1,25 @@
 h1 {
-  font-family: 'Merriweather', sans-serif;
+  font-size: 36px;
+  text-align: center;
+  font-weight: bold;
 }
+
+h3 {
+  font-size: 24px;
+  font-weight: lighter;
+}
+
 .container {
   margin: 0 auto;
   text-align: center;
+}
+
+.img-prof {
+  height: 350px;
+  width: auto;
+}
+
+.img-student {
+  height: 250px;
+  width: auto;
 }

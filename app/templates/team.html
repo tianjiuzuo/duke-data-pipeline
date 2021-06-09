@@ -2,44 +2,59 @@
 
 {% block styles %}
   {{ super() }}
-    <link href="{{ url_for('static', filename='styles/research.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/team.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/Team-Clean.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-center" style="text-align: center;font-family: Merriweather, serif;margin-top: 31px;">Our Team</h1>
-    <h3 class="text-center" style="text-align: center;font-family: Merriweather, serif;margin-top: 30px;margin-bottom: 27px;">Professors</h3>
+    <h1 class="text-center my-5">Our Team</h1>
     <div class="team-clean">
-        <div class="container">
-            <div class="intro"></div>
+        <div class="container col-md-9">
+            <h3 class="text-left pl-5 pb-3">PROFESSORS</h3>
             <div class="row people">
-                <div class="col-md-6 col-lg-4 offset-lg-2 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Hoffman.jpg') }}">
+                <div class="col-md-6 item px-5"><img class="rounded-circle img-prof shadow" src="{{ url_for('static', filename='img/Hoffman.jpg') }}">
                     <h3 class="name">David Hoffman</h3>
                     <p class="title">Duke Sanford School</p>
-                    <p class="description">David Hoffman is the Steed Family Professor of the Practice of Cybersecurity Policy at the Sanford School of Public Policy. He also is Associate General Counsel and Global Privacy Officer for Intel Corporation.<br></p>
+                    <p class="description px-5">David Hoffman is the Steed Family Professor of the Practice of Cybersecurity Policy at the Sanford School of Public Policy. He also is Associate General Counsel and Global Privacy Officer for Intel Corporation.<br></p>
                 </div>
-                <div class="col-md-6 col-lg-4 offset-lg-0 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Dellinger.jpg') }}">
+                <div class="col-md-6 item px-5"><img class="rounded-circle img-prof shadow" src="{{ url_for('static', filename='img/Dellinger.jpg') }}">
                     <h3 class="name">Jolynn Dellinger</h3>
                     <p class="title">Duke Law school</p>
-                    <p class="description">Ms. Dellinger teaches Privacy Law and Policy at the Duke University School of Law and at the&nbsp;UNC School of Law. She is also the Special Counsel for Privacy Policy and Litigation for the NC Department of Justice.<br></p>
+                    <p class="description px-5">Ms. Dellinger teaches Privacy Law and Policy at the Duke University School of Law and at the&nbsp;UNC School of Law. She is also the Special Counsel for Privacy Policy and Litigation for the NC Department of Justice.<br></p>
                 </div>
             </div>
         </div>
     </div>
-    <h3 style="text-align: center;font-family: Merriweather, serif;margin-top: 30px;margin-bottom: 27px;">Students</h3>
-    <div class="team-clean">
-        <div class="container">
-            <div class="intro"></div>
+
+    <div class="container col-md-10">
+        <h3 class="text-left pl-4 pb-3">STUDENTS</h3>
+        <div class="team-clean">
             <div class="row people">
-                <div class="col-md-6 col-lg-4 offset-lg-2 offset-xl-4 item"><img class="rounded-circle" src="{{ url_for('static', filename='img/Zuo.jpg') }}">
+                <div class="col-md-3 col-12 px-4 item"><img class="rounded-circle img-student shadow" src="{{ url_for('static', filename='img/Zuo.jpg') }}">
                     <h3 class="name">Tianjiu Zuo</h3>
+                    <p class="title">Undergraduate</p>
+                    <p class="description">Tianjiu Zuo is an intern at the Atlantic Council’s Cyber Statecraft Initiative. He is an undergraduate at Duke University and researches various technology issues at Duke’s Sanford School of Public Policy. </p>
+                </div>
+                <div class="col-md-3 col-12 px-4 item"><img class="rounded-circle img-student shadow" src="{{ url_for('static', filename='img/Khoo.jpeg') }}">
+                    <h3 class="name">Qi Xuan Khoo</h3>
+                    <p class="title">Undergraduate</p>
+                    <p class="description">Tianjiu Zuo is an intern at the Atlantic Council’s Cyber Statecraft Initiative. He is an undergraduate at Duke University and researches various technology issues at Duke’s Sanford School of Public Policy. </p>
+                </div>
+                <div class="col-md-3 col-12 px-4 item"><img class="rounded-circle img-student shadow" src="{{ url_for('static', filename='img/Yvonne.jpeg') }}">
+                    <h3 class="name">Yvonne Kuo</h3>
+                    <p class="title">Undergraduate</p>
+                    <p class="description">Tianjiu Zuo is an intern at the Atlantic Council’s Cyber Statecraft Initiative. He is an undergraduate at Duke University and researches various technology issues at Duke’s Sanford School of Public Policy. </p>
+                </div>
+                <div class="col-md-3 col-12 px-4 item"><img class="rounded-circle img-student shadow" src="{{ url_for('static', filename='img/Lynne.jpeg') }}">
+                    <h3 class="name">Lynne Wang</h3>
                     <p class="title">Undergraduate</p>
                     <p class="description">Tianjiu Zuo is an intern at the Atlantic Council’s Cyber Statecraft Initiative. He is an undergraduate at Duke University and researches various technology issues at Duke’s Sanford School of Public Policy. </p>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 {% endblock %}
