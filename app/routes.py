@@ -295,6 +295,18 @@ def admin_profiles():
     else:
         return render_template('404.html')
 
+@app.route('/map', methods=['GET', 'POST'])
+@login_required
+def map():
+    if not current_user.pwPrompted:
+        return redirect(url_for('changePassword'))
+
+    if current_user.role.name == 'admin':
+        return render_template('map.html')
+
+    else:
+        return render_template('404.html')
+
 @app.route('/admin_profiles/delete/<int:id>')
 @login_required
 def delete_profile(id):
