@@ -65,8 +65,10 @@ def index():
     }]
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
-    if current_user.role.name == 'admin':
+
+    if current_user.role.name == 'admin' or current_user.role.name == 'policymaker':
         return redirect(url_for('admin_dashboard'))
+
     return render_template('index.html', title='Home', posts=posts, template='base.html')
     
 
@@ -167,9 +169,16 @@ def admin_dashboard():
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
-    if current_user.role.name == 'admin':
-        update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
-        user_fields = ['organization']
+    if current_user.role.name in ['admin', 'policymaker']:
+        if current_user.role.name == 'admin': 
+            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+            user_fields = ['organization']
+            template = 'admin_dashboard.html'
+            
+        if current_user.role.name == 'policymaker':
+            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+            user_fields = ['organization']
+            template = 'policymaker_dashboard.html'
 
         # Sort --> Filter --> Paginate
 
@@ -223,10 +232,10 @@ def admin_dashboard():
             filtered = True
 
         #Paginate
-        updates = updates.paginate(per_page=per_page, page=page)
+        updates_paginated = updates.paginate(per_page=per_page, page=page)
 
         if request.method == 'GET':
-            return render_template('admin_dashboard.html',
+            return render_template(template,
                                 title='Admin Dashboard',
                                 update_fields=update_fields,
                                 user_fields=user_fields,
@@ -237,10 +246,25 @@ def admin_dashboard():
                                 end=end,
                                 # filter_by=filter_by,
                                 # filters=filters,
-                                updates=updates)
+                                updates=updates_paginated)
 
         if request.method == 'POST':
-            form = request.form.to_dict(flat=False)
+            post_data = request.get_json()
+
+            #Timestamp
+            start = post_data['start_date']
+            end = post_data['end_date']
+
+            if not start:
+                updates = updates.filter(func.DATE(Update.timestamp) >= db.session.query(func.min(Update.timestamp)).one()[0].date())
+            else:
+                updates = updates.filter(func.DATE(Update.timestamp) >= datetime.strptime(start, '%m/%d/%Y').date())
+                filtered = True
+
+            if not end:
+                updates = updates.filter(func.DATE(Update.timestamp) <= db.session.query(func.max(Update.timestamp)).one()[0].date())
+            else:
+                updates = updates.filter(func.DATE(Update.timestamp) <= datetime.strptime(end, '%m/%d/%Y').date())
 
             data = []
             csvpath = os.getcwd()
@@ -248,17 +272,16 @@ def admin_dashboard():
             csvpath = csvpath + '/app/'
             csvheader = []
 
-            for update in updates.items:
+            for update in updates:
                 new_row = []
-
                 for field in update_fields:
-                    if field in form:
+                    if post_data[field]:
                         new_row.append(getattr(update,field))
                         if field not in csvheader:
                             csvheader.append(field)
 
                 for field in user_fields:
-                    if field in form:
+                    if post_data[field]:
                         new_row.append(getattr(update.user,field))
                         if field not in csvheader:
                             csvheader.append(field)
@@ -271,7 +294,6 @@ def admin_dashboard():
                 write.writerows(data)
 
             path = 'data.csv'
-
             return send_file(path, as_attachment=True)
 
     else:

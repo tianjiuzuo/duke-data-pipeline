@@ -15,7 +15,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    role = SelectField('Role', choices=[('admin', 'admin'), ('shelter', 'shelter')], validators=[DataRequired()])
+    role = SelectField('Role', choices=[('admin', 'admin'), ('shelter', 'shelter'), ('policymaker', 'policymaker')], validators=[DataRequired()])
     organization = StringField('Organization', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=25),
                                                          Regexp("^(?=.*[a-z])", message="Password must have a lowercase character"),

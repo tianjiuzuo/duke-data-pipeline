@@ -153,7 +153,7 @@
                         {% for page_num in updates.iter_pages() %}
                             {% if page_num %}
                                 {% if updates.page == page_num %}
-                                    <option id="{{ page_num }}" class="btn btn-info mb-3" value="{{ page_num }}" onclick=page(this.id) >{{ page_num }}</option>
+                                    <option id="{{ page_num }}" class="btn btn-info mb-3" value="{{ page_num }}" onclick=page(this.id) style="background-color:#31A231;" >{{ page_num }}</option>
                                 {% else %}
                                     <option id="{{ page_num }}" class="btn btn-outline-info mb-3" value="{{ page_num }}" onclick=page(this.id) >{{ page_num }}</option>
                                 {% endif %}
@@ -178,39 +178,45 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="modal-form" action="{{ url_for('admin_dashboard') }}" method="post">
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <div class="d-flex flex-column">
-                                    {% for field in update_fields %}
-                                    <div class="p-2 text-left">
-                                        <input class="form-check-input" type="checkbox" name="{{ field }}" value="{{ field }}">
-                                        <label class="form-check-label" for="{{ field }}">
-                                            {{ field.replace('_', ' ').capitalize() }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
-                                    {% for field in user_fields %}
-                                    <div class="p-2 text-left">
-                                        <input class="form-check-input" type="checkbox" name="{{ field }}" value="{{ field }}">
-                                        <label class="form-check-label" for="{{ field }}">
-                                            {{ field.replace('_', ' ').capitalize() }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <div class="d-flex flex-column">
+                                {% for field in update_fields %}
+                                <div class="p-2 text-left">
+                                    <input class="form-check-input" type="checkbox" name="{{ field }}" value="{{ field }}">
+                                    <label class="form-check-label" for="{{ field }}">
+                                        {{ field.replace('_', ' ').capitalize() }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                                {% for field in user_fields %}
+                                <div class="p-2 text-left">
+                                    <input class="form-check-input" type="checkbox" name="{{ field }}" value="{{ field }}">
+                                    <label class="form-check-label" for="{{ field }}">
+                                        {{ field.replace('_', ' ').capitalize() }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                                <div class="p-2 text-left">
+                                    <label for="start_date_download">From</label>
+                                    <input id="start_date_download" width="276" value="{{ start }}"/>   
+                                </div>
+                                <div class="p-2 text-left">
+                                    <label for="end_date_download">To</label>
+                                    <input id="end_date_download" width="276" value="{{ end }}"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Download Data</button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick=csvDownload()>Download Data</button>
+            </div>
         </div>
     </div>
 </div>
@@ -279,23 +285,43 @@
         uiLibrary: 'bootstrap4'
     });
 
+    $('#start_date_download').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
+    $('#end_date_download').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
     document.addEventListener('DOMContentLoad', function() {
 
     }, false)
 
-    $(function(){
-       $('#modal-form').on('submit', function(e){
-            e.preventDefault();
+    function csvDownload() {
+        event.preventDefault();
+        
+        var tags = document.getElementsByClassName('form-check-input');
+        var fields = {};
 
-            var fields = document.querySelector('.form-check-input').checked;
+        for (tag in tags) {
+            if (tags[tag].checked) {
+                fields[tags[tag].value] = true;
+            } else {
+                fields[tags[tag].value] = false;
+            }
+        }
 
-            $.ajax({
-                url: "{{ url_for('admin_dashboard') }}",
-                type: "POST",
-                data: fields,
-            });
-       }); 
-    });
+        fields['start_date'] = document.getElementById('start_date_download').value;
+        fields['end_date']= document.getElementById('end_date_download').value;
+
+        $.ajax({
+            data: JSON.stringify(fields),
+            contentType: "application/json",
+            dataType: 'json',
+            url: "{{ url_for('admin_dashboard') }}",
+            type: "POST"
+        });
+    }
 
     function checkAll(bx) {
         var cbs = document.getElementsByTagName('input');
