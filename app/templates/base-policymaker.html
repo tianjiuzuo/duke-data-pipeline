@@ -1,0 +1,36 @@
+﻿{% extends "bootstrap-base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='styles/base.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar sticky-top navbar-custom navbar-expand-md shadow">
+    <div class="container-fluid">
+        <a href="{{ url_for('index') }}"><img class="mx-2" src="{{ url_for('static', filename='img/Duke-Logo.svg') }}"></a><button data-toggle="collapse" class="navbar-toggler" data-target="{{ url_for('index') }}"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}">Data Dashboard</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('register') }}">Data Visualization</a></li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                {% if current_user.is_anonymous %}
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('changePassword') }}">Change Password</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<footer class="footer">
+    <div class="container">
+      <span class="text-muted">Duke University Domestic Violence Data Pipeline Project</span>
+      </div>
+</footer>
+{% endblock %}
