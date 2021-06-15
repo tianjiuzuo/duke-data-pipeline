@@ -323,7 +323,7 @@ def map():
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
-    if current_user.role.name == 'admin':
+    if current_user.role.name == 'policymaker':
         return render_template('map.html')
 
     else:
