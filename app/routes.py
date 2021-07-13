@@ -1,6 +1,7 @@
-from flask import render_template, flash, redirect, url_for, request, send_file, current_app
+from flask import render_template, flash, redirect, url_for, request, send_file, send_from_directory, current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_user import roles_required
+from sqlalchemy.sql.operators import as_
 from werkzeug.urls import url_parse
 from app import app, db, mail
 from app.forms import LoginForm, RegistrationForm, CollectionForm, ChangePasswordForm
@@ -247,7 +248,7 @@ def admin_dashboard():
                                 # filter_by=filter_by,
                                 # filters=filters,
                                 updates=updates_paginated)
-
+            
         if request.method == 'POST':
             post_data = request.get_json()
 
@@ -269,7 +270,7 @@ def admin_dashboard():
             data = []
             csvpath = os.getcwd()
             csvpath = csvpath.split('app')[0]
-            csvpath = csvpath + '/app/'
+            csvpath = csvpath + '/app/static/csv/'
             csvheader = []
 
             for update in updates:
@@ -292,13 +293,28 @@ def admin_dashboard():
                 write = csv.writer(demo_file)
                 write.writerow(csvheader)
                 write.writerows(data)
+            
 
-            path = 'data.csv'
-            return send_file(path, as_attachment=True)
+            return render_template(template,
+                                title='Admin Dashboard',
+                                update_fields=update_fields,
+                                user_fields=user_fields,
+                                sort_by=sort_by,
+                                sort_order=sort_order,
+                                filtered=filtered,
+                                start=start,
+                                end=end,
+                                # filter_by=filter_by,
+                                # filters=filters,
+                                updates=updates_paginated)
 
     else:
         return render_template('404.html')
 
+@app.route('/csvdownload', methods=['GET'])
+def csvdownload():
+    path = 'static/csv/'
+    return send_file(path+'data.csv', as_attachment=True)
 
 @app.route('/admin_profiles', methods=['GET', 'POST'])
 @login_required
