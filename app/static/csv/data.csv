@@ -1,0 +1,12 @@
+user_id,capacity,timestamp,organization
+5,300,2021-05-14 05:25:43.506492,Raleigh Shelter
+5,3000,2021-05-14 05:25:43.506492,Raleigh Shelter
+5,123,2021-05-14 13:20:43.506492,Raleigh Shelter
+5,123,2021-05-13 15:25:43.506492,Raleigh Shelter
+5,123,2021-05-12 05:25:43.506492,Raleigh Shelter
+5,123,2021-05-13 05:30:43.506492,Raleigh Shelter
+5,123,2021-05-13 10:25:43.506492,Raleigh Shelter
+5,123,2021-05-13 08:25:43.506492,Raleigh Shelter
+6,50,2021-05-24 15:40:23.270936,Durham Shelter
+6,120,2021-05-24 15:40:23.270936,Durham Shelter
+5,50,2021-05-31 08:15:50.014008,Raleigh Shelter
