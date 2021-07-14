@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}">Data Dashboard</a></li>
-                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('register') }}">Data Visualization</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('map') }}">Data Visualization</a></li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
                 {% if current_user.is_anonymous %}

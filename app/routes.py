@@ -311,8 +311,8 @@ def admin_dashboard():
     else:
         return render_template('404.html')
 
-@app.route('/csvdownload', methods=['GET'])
-def csvdownload():
+@app.route('/download_csv', methods=['GET'])
+def download_csv():
     path = 'static/csv/'
     return send_file(path+'data.csv', as_attachment=True)
 
@@ -339,7 +339,7 @@ def map():
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
-    if current_user.role.name == 'admin':
+    if current_user.role.name == 'policymaker':
         return render_template('map.html')
 
     else:
