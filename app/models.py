@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     organization = db.Column(db.String(120))
+    county = db.Column(db.String(120))
     role = db.relationship('Role', secondary='role_user', lazy='subquery', backref=db.backref('users', lazy=True), uselist=False)
     updates = db.relationship('Update', cascade="all, delete", backref='user', lazy=True)
     requests = db.relationship('Request', cascade="all, delete", backref='user', lazy=True)

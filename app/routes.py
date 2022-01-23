@@ -120,7 +120,7 @@ def register():
     available_roles = [role.name for role in Role.query.all()]
 
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, organization=form.organization.data)
+        user = User(username=form.username.data, email=form.email.data, organization=form.organization.data, county=form.county.data)
         role = Role.query.filter_by(name=form.role.data).first()
         user.role = role
         user.set_password(form.password.data)
@@ -181,7 +181,7 @@ def admin_dashboard():
             user_fields = ['organization']
             template = 'policymaker_dashboard.html'
 
-        # Sort --> Filter --> Paginate
+        # Sort --> Filter --> Paginate            
 
         filter_by = request.args.get('filter_by')
         filter = request.args.get('filter')
@@ -192,6 +192,20 @@ def admin_dashboard():
         sort_query = sort_by + ' ' + sort_order if sort_by else None
         filtered = False
 
+        if db.session.query(Update).first() == None:
+            return render_template(template,
+                                title='Admin Dashboard',
+                                update_fields=update_fields,
+                                user_fields=user_fields,
+                                sort_by=sort_by,
+                                sort_order=sort_order,
+                                filtered=filtered,
+                                start='',
+                                end='',
+                                # filter_by=filter_by,
+                                # filters=filters,
+                                updates=None)
+            
         # Sort query
         if sort_query:
             if sort_by in user_fields:

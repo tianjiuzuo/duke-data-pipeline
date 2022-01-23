@@ -17,6 +17,25 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     role = SelectField('Role', choices=[('admin', 'admin'), ('shelter', 'shelter'), ('policymaker', 'policymaker')], validators=[DataRequired()])
     organization = StringField('Organization', validators=[DataRequired()])
+    county = SelectField('County', choices=[('',''),('N/A', 'N/A'),('Alamance', 'Alamance'), ('Alleghany', 'Alleghany'), ('Bladen', 'Bladen'), ('Buncombe', 'Buncombe'), ('Caldwell', 'Caldwell'), 
+                                            ('Dare', 'Dare'), ('Davidson', 'Davidson'), ('Forsyth', 'Forsyth'), ('Guilford', 'Guilford'), ('Hertford', 'Hertford'), 
+                                            ('Martin', 'Martin'), ('Nash', 'Nash'), ('Pender', 'Pender'), ('Randolph', 'Randolph'), ('Scotland', 'Scotland'), 
+                                            ('Stanly', 'Stanly'), ('Vance', 'Vance'), ('Wayne', 'Wayne'), ('Yadkin', 'Yadkin'), ('Wilkes', 'Wilkes'), ('Wilson', 'Wilson'), 
+                                            ('Yancey', 'Yancey'), ('Avery', 'Avery'), ('Beaufort', 'Beaufort'), ('Brunswick', 'Brunswick'), ('Cabarrus', 'Cabarrus'), 
+                                            ('Catawba', 'Catawba'), ('Chatham', 'Chatham'), ('Cherokee', 'Cherokee'), ('Chowan', 'Chowan'), ('Columbus', 'Columbus'), 
+                                            ('Davie', 'Davie'), ('Duplin', 'Duplin'), ('Edgecombe', 'Edgecombe'), ('Franklin', 'Franklin'), ('Gaston', 'Gaston'), ('Graham', 'Graham'), 
+                                            ('Granville', 'Granville'), ('Halifax', 'Halifax'), ('Haywood', 'Haywood'), ('Hyde', 'Hyde'), ('Jackson', 'Jackson'), ('Lee', 'Lee'), 
+                                            ('McDowell', 'McDowell'), ('Madison', 'Madison'), ('Mitchell', 'Mitchell'), ('New Hanover', 'New Hanover'), ('Orange', 'Orange'), 
+                                            ('Pasquotank', 'Pasquotank'), ('Perquimans', 'Perquimans'), ('Pitt', 'Pitt'), ('Richmond', 'Richmond'), ('Rowan', 'Rowan'), 
+                                            ('Sampson', 'Sampson'), ('Stokes', 'Stokes'), ('Transylvania', 'Transylvania'), ('Wake', 'Wake'), ('Washington', 'Washington'), 
+                                            ('Alexander', 'Alexander'), ('Anson', 'Anson'), ('Ashe', 'Ashe'), ('Caswell', 'Caswell'), ('Cleveland', 'Cleveland'), ('Durham', 'Durham'), 
+                                            ('Gates', 'Gates'), ('Harnett', 'Harnett'), ('Iredell', 'Iredell'), ('Lincoln', 'Lincoln'), ('Montgomery', 'Montgomery'), ('Person', 'Person'), 
+                                            ('Rockingham', 'Rockingham'), ('Swain', 'Swain'), ('Union', 'Union'), ('Currituck', 'Currituck'), ('Greene', 'Greene'), ('Henderson', 'Henderson'), 
+                                            ('Bertie', 'Bertie'), ('Burke', 'Burke'), ('Camden', 'Camden'), ('Carteret', 'Carteret'), ('Johnston', 'Johnston'), ('Lenoir', 'Lenoir'), 
+                                            ('Macon', 'Macon'), ('Mecklenburg', 'Mecklenburg'), ('Moore', 'Moore'), ('Watauga', 'Watauga'), ('Surry', 'Surry'), ('Tyrrell', 'Tyrrell'), 
+                                            ('Craven', 'Craven'), ('Cumberland', 'Cumberland'), ('Northampton', 'Northampton'), ('Pamlico', 'Pamlico'), ('Polk', 'Polk'), ('Robeson', 'Robeson'), 
+                                            ('Clay', 'Clay'), ('Warren', 'Warren'), ('Hoke', 'Hoke'), ('Rutherford', 'Rutherford'), ('Onslow', 'Onslow'), ('Jones', 'Jones')] 
+                                            , validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=25),
                                                          Regexp("^(?=.*[a-z])", message="Password must have a lowercase character"),
                                                          Regexp("^(?=.*[A-Z])", message="Password must have an uppercase character"),
