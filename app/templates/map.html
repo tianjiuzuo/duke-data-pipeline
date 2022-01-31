@@ -92,10 +92,14 @@
                     info.update(layer.feature.properties);
                 }
 
-                var geojson;
+                var pop_density_geojson;
+                var bed_county_geojson;
+                var victim_bed_geojson;
 
                 function resetHighlight(e) {
-                    geojson.resetStyle(e.target);
+                    pop_density_geojson.resetStyle(e.target);
+                    bed_county_geojson.resetStyle(e.target);
+                    victim_bed_geojson.resetStyle(e.target);
                     info.update();
                 }
 
@@ -111,13 +115,30 @@
                     });
                 }
 
-                var geojson = L.geoJson.ajax('../static/js/counties.geojson', {
+                var pop_density_geojson = L.geoJson.ajax('../static/js/counties.geojson', {
                     style: style,
                     onEachFeature: onEachFeature
                 });
-                geojson.on('data:loaded', function () {
-                    map.addLayer(this);
+
+                var bed_county_geojson = L.geoJson.ajax('../static/js/bed-county-density.geojson', {
+                    style: style,
+                    onEachFeature: onEachFeature
                 });
+
+                var victim_bed_geojson = L.geoJson.ajax('../static/js/victim-bed-density.geojson', {
+                    style: style,
+                    onEachFeature: onEachFeature
+                });
+
+                var baseMaps = {
+                    "Population Density": pop_density_geojson,
+                    "Beds to County Population": bed_county_geojson,
+                    "Victims to Beds": victim_bed_geojson
+                };
+                
+                L.control.layers(baseMaps).addTo(map);
+
+                pop_density_geojson.addTo(map);
            
                 map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
