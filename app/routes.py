@@ -151,7 +151,7 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
-        send_mail()
+        #send_mail()
 
         nextmonth = datetime.today() + relativedelta.relativedelta(months=1)
         nextmonth = nextmonth.strftime('%B') + " 1st"
@@ -353,7 +353,7 @@ def map():
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
-    if current_user.role.name == 'policymaker':
+    if current_user.role.name in ['policymaker', 'admin']:
         return render_template('map.html')
 
     else:
