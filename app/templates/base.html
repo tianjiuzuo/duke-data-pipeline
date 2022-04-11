@@ -17,6 +17,25 @@
                 <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('research') }}">Research</a></li>
                 <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('team') }}">Team</a></li>
                 <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('contact_us') }}">Contact Us</a></li>
+                {% if current_user.is_anonymous %}
+                {% else %}
+                {% if current_user.is_admin() %}
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('register') }}">Register User</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('admin_profiles') }}">User Profiles</a></li>
+                {% else %}
+                <h6></h6>
+                {% endif %}
+                {% endif %}
+                {% if current_user.is_anonymous %}
+                {% else %}
+                {% if current_user.is_policymaker() %}
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('admin_dashboard') }}">Data Dashboard</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('map') }}">Data Visualization</a></li>
+                {% else %}
+                <h6></h6>
+                {% endif %}
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav ml-auto">
               {% if current_user.is_anonymous %}
@@ -25,6 +44,7 @@
               <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('changePassword') }}">Change Password</a></li>
               <li class="nav-item mx-2"><a class="nav-link active" href="{{ url_for('logout') }}">Logout</a></li>
               {% endif %}
+        
           </ul>
       </div>
     </div>

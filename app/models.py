@@ -25,6 +25,12 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def is_admin(self):
+        return self.role.name == 'admin'
+    
+    def is_policymaker(self):
+        return self.role.name == 'policymaker'
 
 
 @login.user_loader

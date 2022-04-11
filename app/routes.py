@@ -67,11 +67,15 @@ def index():
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
-    if current_user.role.name == 'admin' or current_user.role.name == 'policymaker':
-        return redirect(url_for('admin_dashboard'))
+    # if current_user.role.name == 'admin' or current_user.role.name == 'policymaker':
+    #     return redirect(url_for('admin_dashboard'))
 
     return render_template('index.html', title='Home', posts=posts, template='base.html')
-    
+
+@app.route('/apply_account', methods=['GET', 'POST'])
+def apply_account():
+    return render_template('apply_account.html', title='Apply for an Account')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -89,6 +93,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
+        return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
 
@@ -115,15 +120,15 @@ def register():
 
     if current_user.role.name == 'shelter':
         return redirect(url_for('index'))
-
-    form = RegistrationForm()
     available_roles = [role.name for role in Role.query.all()]
-
+    form = RegistrationForm()
+    
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, organization=form.organization.data, county=form.county.data)
         role = Role.query.filter_by(name=form.role.data).first()
         user.role = role
         user.set_password(form.password.data)
+        available_roles = [role.name for role in Role.query.all()]
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
@@ -417,8 +422,8 @@ def terms_and_privacy():
                            title='Please read to continue', template=admin_template_validation())
 
 def admin_template_validation():
-    if current_user.role.name == 'admin':
-        return 'base-admin.html'
+    # if current_user.role.name == 'admin':
+    #     return 'base-admin.html'
     return 'base.html'
 
 def send_mail():

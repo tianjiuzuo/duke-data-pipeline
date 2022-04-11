@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% from 'bootstrap/form.html' import render_form %}
 
 {% block styles %}
@@ -13,15 +12,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center">Register User</div>
+                <div class="card-header text-center">How to apply</div>
                 <div class="card-body">
-                    <div>
-                        {{ render_form(form, form_type="horizontal", horizontal_columns=("md", "4", "6"), button_style="outline-secondary") }}
-                    </div>
+                    <h5>
+                        Due to privacy concern, users cannot register an account on their own. If you would like to be part of....please...
+                    </h5>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+  </div>
 {% endblock %}
