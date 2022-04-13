@@ -93,13 +93,13 @@
                 }
 
                 var pop_density_geojson;
-                var bed_county_geojson;
-                var victim_bed_geojson;
+                // var bed_county_geojson;
+                // var victim_bed_geojson;
 
                 function resetHighlight(e) {
                     pop_density_geojson.resetStyle(e.target);
-                    bed_county_geojson.resetStyle(e.target);
-                    victim_bed_geojson.resetStyle(e.target);
+                    // bed_county_geojson.resetStyle(e.target);
+                    // victim_bed_geojson.resetStyle(e.target);
                     info.update();
                 }
 
@@ -120,20 +120,20 @@
                     onEachFeature: onEachFeature
                 });
 
-                var bed_county_geojson = L.geoJson.ajax('../static/js/bed-county-density.geojson', {
-                    style: style,
-                    onEachFeature: onEachFeature
-                });
+                // var bed_county_geojson = L.geoJson.ajax('../static/js/bed-county-density.geojson', {
+                //     style: style,
+                //     onEachFeature: onEachFeature
+                // });
 
-                var victim_bed_geojson = L.geoJson.ajax('../static/js/victim-bed-density.geojson', {
-                    style: style,
-                    onEachFeature: onEachFeature
-                });
+                // var victim_bed_geojson = L.geoJson.ajax('../static/js/victim-bed-density.geojson', {
+                //     style: style,
+                //     onEachFeature: onEachFeature
+                // });
 
                 var baseMaps = {
-                    "Population Density": pop_density_geojson,
-                    "Beds to County Population": bed_county_geojson,
-                    "Victims to Beds": victim_bed_geojson
+                    "Population Density": pop_density_geojson
+                    // "Beds to County Population": bed_county_geojson,
+                    // "Victims to Beds": victim_bed_geojson
                 };
                 
                 L.control.layers(baseMaps).addTo(map);

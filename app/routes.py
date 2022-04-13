@@ -15,6 +15,8 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timedelta
 import time
 import atexit
+import json
+import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from dateutil import relativedelta
 
@@ -146,6 +148,12 @@ def logout():
 @app.route('/collectionform', methods=['GET', 'POST'])
 @login_required
 def collectionform():
+    def total_victims_county():
+        with sqlite3.connect("app.db") as conn:
+            c = conn.cursor()
+            c.execute("SELECT county, SUM(number_of_victims) FROM updates, users WHERE updates.user_id=users.id GROUP BY county")
+            return c.fetchall()
+
     if not current_user.pwPrompted:
         return redirect(url_for('changePassword'))
 
@@ -156,6 +164,34 @@ def collectionform():
                             capacity=form.capacity.data)
         db.session.add(submission)
         db.session.commit()
+        # update counties.geojson for the map
+        print(1)
+        conn= sqlite3.connect('app.db')
+        c = conn.cursor()
+        request_str = "https://api.census.gov/data/2019/pep/charagegroups?get=NAME,POP&for=county&in=state:37"
+        r = requests.get(request_str)
+        county_pop_lst = [(x[0].split(" County")[0], int(x[1])) for x in r.json()[1:]]
+        county_pop_lst.sort(key=lambda x:x[0])
+        victims_county = [[x[0], x[1]] for x in total_victims_county()]
+        print(2)
+        with open('app/static/js/counties.geojson') as f:
+            data = json.load(f)
+        print(3)
+        for i in victims_county:
+            for j in county_pop_lst:
+                if i[0] == j[0]:
+                    i[1] = "{:.4f}".format(i[1] / j[1])
+        for item in victims_county:
+            for county in data['features']:
+                if item[0] == county['properties']['name']:
+                    county['properties']['density'] = item[1]
+        print(4)
+        with open('app/static/js/counties.geojson', 'w') as f:
+            json.dump(data, f)
+        print(5)
+
+
+
         send_mail()
 
         nextmonth = datetime.today() + relativedelta.relativedelta(months=1)

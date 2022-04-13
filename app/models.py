@@ -32,6 +32,9 @@ class User(UserMixin, db.Model):
     def is_policymaker(self):
         return self.role.name == 'policymaker'
 
+    def is_shelter(self):
+        return self.role.name == 'shelter'
+
 
 @login.user_loader
 def load_user(id):

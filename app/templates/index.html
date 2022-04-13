@@ -18,12 +18,14 @@
             <div class="row justify-content-center">
                 <div class="col-md-4">
                     <div class="card shadow border-dark my-4 p-0">
+                        {% if current_user.is_shelter() %}
                         <div class="card-body pt-3 pb-2">
                             <p id="please-click" class="mb-1">Begin the data entry process:</p>
                             <p class="lead">
                                 <a href="{{ url_for('terms_and_privacy') }}" class="btn btn-primary btn-lg">Collection Form</a>
                             </p>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

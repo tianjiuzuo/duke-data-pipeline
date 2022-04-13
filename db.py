@@ -27,6 +27,7 @@ def total_victims_county():
    with sqlite3.connect("app.db") as conn:
        c = conn.cursor()
        c.execute("SELECT county, SUM(number_of_victims) FROM updates, users WHERE updates.user_id=users.id GROUP BY county")
+    #    c.execute("SELECT county, SUM(number_of_victims) FROM updates)
        
        return c.fetchall()
 
