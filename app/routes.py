@@ -176,15 +176,18 @@ def admin_dashboard():
         return redirect(url_for('changePassword'))
 
     if current_user.role.name in ['admin', 'policymaker']:
-        if current_user.role.name == 'admin': 
-            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
-            user_fields = ['organization']
-            template = 'admin_dashboard.html'
+        update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+        user_fields = ['organization']
+        template = 'admin_dashboard.html'
+        # if current_user.role.name == 'admin': 
+        #     update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+        #     user_fields = ['organization']
+        #     template = 'admin_dashboard.html'
             
-        if current_user.role.name == 'policymaker':
-            update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
-            user_fields = ['organization']
-            template = 'policymaker_dashboard.html'
+        # if current_user.role.name == 'policymaker':
+        #     update_fields = ['id', 'user_id', 'number_of_victims', 'capacity', 'timestamp']
+        #     user_fields = ['organization']
+        #     template = 'policymaker_dashboard.html'
 
         # Sort --> Filter --> Paginate            
 
