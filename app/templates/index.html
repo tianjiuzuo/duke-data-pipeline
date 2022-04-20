@@ -18,6 +18,14 @@
             <div class="row justify-content-center">
                 <div class="col-md-4">
                     <div class="card shadow border-dark my-4 p-0">
+                        {% if current_user.is_anonymous %}
+                        <div class="card-body pt-3 pb-2">
+                            <p id="please-click" class="mb-1">Be a part of the program:</p>
+                            <p class="lead">
+                                <a href="{{ url_for('apply_account') }}" class="btn btn-primary btn-lg">Apply for an account</a>
+                            </p>
+                        </div>
+                        {% else %}
                         {% if current_user.is_shelter() %}
                         <div class="card-body pt-3 pb-2">
                             <p id="please-click" class="mb-1">Begin the data entry process:</p>
@@ -25,6 +33,8 @@
                                 <a href="{{ url_for('terms_and_privacy') }}" class="btn btn-primary btn-lg">Collection Form</a>
                             </p>
                         </div>
+                        {% else %}
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -32,6 +42,7 @@
         </div>
     </div>
 </div>
+{% if current_user.is_anonymous %}
 <div class="jumbotron jumbotron-fluid mt-5 py-5 mb-0">
     <div class="container col-md-12">
         <div class="row justify-content-center text-center mx-4">
@@ -86,4 +97,6 @@
         </div>
     </div>
 </div>
+{% else %}
+{% endif %}
 {% endblock %}

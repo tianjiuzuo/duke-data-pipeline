@@ -53,8 +53,8 @@ scheduler.start()
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
+    # @login_required
     posts = [{
         'author': {
             'username': 'John'
@@ -66,8 +66,8 @@ def index():
         },
         'body': 'The Avengers movie was so cool!'
     }]
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
 
     # if current_user.role.name == 'admin' or current_user.role.name == 'policymaker':
     #     return redirect(url_for('admin_dashboard'))
@@ -421,42 +421,42 @@ def delete_profile(id):
 
 
 @app.route('/research')
-@login_required
 def research():
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # @login_required
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
     return render_template('research.html', title='Research', template=admin_template_validation())
 
 
 @app.route('/disclosure')
-@login_required
 def disclosure():
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # @login_required
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
     return render_template('disclosure.html', title='Disclosure', template=admin_template_validation())
 
 
 @app.route('/team')
-@login_required
 def team():
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # @login_required
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
     return render_template('team.html', title='Team', template=admin_template_validation())
 
 
 @app.route('/contact_us')
-@login_required
 def contact_us():
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # @login_required
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
     return render_template('contact.html', title='Contact Us', template=admin_template_validation())
 
 
 @app.route('/terms_and_privacy')
-@login_required
 def terms_and_privacy():
-    if not current_user.pwPrompted:
-        return redirect(url_for('changePassword'))
+    # @login_required
+    # if not current_user.pwPrompted:
+    #     return redirect(url_for('changePassword'))
     return render_template('terms_and_privacy.html',
                            title='Please read to continue', template=admin_template_validation())
 
